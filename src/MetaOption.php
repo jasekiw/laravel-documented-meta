@@ -17,6 +17,8 @@ use Illuminate\Contracts\Support\Arrayable;
 abstract class MetaOption implements Arrayable
 {
 
+    /** @var  MetaSubject */
+    protected $metaSubject;
 
     /**
      * Creates a new instance of a MetaOption.
@@ -27,16 +29,20 @@ abstract class MetaOption implements Arrayable
 
     }
 
+    /**
+     * Sets the subject to apply to
+     * @param HasMeta|MetaSubject $metaSubject
+     */
+    public function setSubject(HasMeta $metaSubject) {
+        $this->metaSubject = $metaSubject;
+    }
 
     /**
      * The programmatic name for this attribute.
      * @return string
      */
-    protected abstract function name() : string;
+    public abstract function name() : string;
 
-    public function getName() : string {
-        return ($this->nameSpace == "" ? "" : $this->nameSpace  . ".") . $this->name();
-    }
 
     /**
      * The human readable label for the attribute
@@ -245,7 +251,7 @@ abstract class MetaOption implements Arrayable
     public function toArray()
     {
         return [
-            'name' => $this->getName(),
+            'name' => $this->name(),
             'label' => $this->label(),
             'description' => $this->description(),
             'type' => $this->type(),

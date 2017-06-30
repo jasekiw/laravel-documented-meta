@@ -1,10 +1,10 @@
 <?php
 namespace LaravelDocumentedMeta\Tests\Unit;
 
-use App\Lib\Arrays\ArrayUtil;
+
 use Illuminate\Support\Collection;
+use LaravelDocumentedMeta\ArrayUtil;
 use LaravelDocumentedMeta\AttributeParsing\AttributeIterator;
-use LaravelDocumentedMeta\MetaSubject;
 use LaravelDocumentedMeta\Tests\TestCase;
 
 
@@ -14,33 +14,32 @@ use LaravelDocumentedMeta\Tests\TestCase;
 class AttributeIteratorTest extends TestCase
 {
     /**
-     * Assert that the iterator can parse through every item and give the correct namespace and class back.
+     * Assert that the iterator can parse through every
+     * item and give the correct namespace and name back
      */
     public function test_parse()
     {
 
-        $user = Mockery::mock(MetaSubject::class);
+        $user = new MetaSubjectFixture();
         $parser = new AttributeIterator();
         $possibleNames = new Collection([
-            "namespace.test",
-            "namespace.namespace_child.test",
-            "test"
+            "namespace.test1",
+            "namespace.namespace_child.test2",
+            "test3"
         ]);
         $originalConfig = [
             "namespace" => [
-                MockMetaOption::class,
+                'test1',
                 "namespace_child" => [
-                    MockMetaOption::class
+                    'test2'
                 ]
             ],
-            MockMetaOption::class
+            'test3'
         ];
         $instance = $parser->parse($originalConfig, function (string $namespace, $class) use (&$possibleNames, $user) {
-            $this->assertEquals(MockMetaOption::class, $class);
-            $option = new MockMetaOption($user, $namespace);
-            $this->assertTrue($possibleNames->contains($option->getName()));
-            $possibleNames = $possibleNames->filter(function ($possibleName) use ($option) {
-                return !($option->getName() == $possibleName);
+            $this->assertTrue($possibleNames->contains((!empty($namespace) ? $namespace . '.' : '') . $class));
+            $possibleNames = $possibleNames->filter(function ($possibleName) use ($namespace, $class) {
+                return !(((!empty($namespace) ? $namespace . '.' : '') . $class) == $possibleName);
             });
             return $class;
         });

@@ -2,7 +2,14 @@
 
 namespace LaravelDocumentedMeta;
 
+/**
+ * Interface HasParentMeta
+ * @package LaravelDocumentedMeta
+ */
 interface HasParentMeta
 {
-    public function getParentMetaSubject() : MetaSubject;
+    /**
+     * @return HasMeta
+     */
+    public function getParentMetaSubject() : HasMeta;
 }

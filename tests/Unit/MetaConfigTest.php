@@ -1,7 +1,7 @@
 <?php
 namespace LaravelDocumentedMeta\Tests\Unit;
 
-use LaravelDocumentedMeta\AttributeParsing\Config;
+use LaravelDocumentedMeta\AttributeParsing\MetaCache;
 use LaravelDocumentedMeta\Tests\TestCase;
 
 class MetaConfigTest extends TestCase
@@ -12,14 +12,14 @@ class MetaConfigTest extends TestCase
     function test_toArray() {
         $originalConfig = [
             "namespace" => [
-                new MockMetaOption(null, ''),
+                new MetaOptionFixture(null, ''),
                 "namespace_child" => [
-                    new MockMetaOption(null, '')
+                    new MetaOptionFixture(null, '')
                 ]
             ],
-            new MockMetaOption(null, '')
+            new MetaOptionFixture(null, '')
         ];
-        $config = (new Config($originalConfig))->toArray();
+        $config = (new MetaCache($originalConfig))->toArray();
         array_walk_recursive($config, function($value) {
             $this->assertTrue(is_array($value) || is_string($value));
         });

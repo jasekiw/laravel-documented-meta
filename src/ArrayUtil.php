@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Lib\Arrays;
+namespace LaravelDocumentedMeta;
 
 /**
  * Class ArrayUtil
