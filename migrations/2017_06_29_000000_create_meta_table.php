@@ -19,7 +19,9 @@ class CreateMetaTable extends Migration
            $table->increments('id');
            $table->unsignedInteger('subject_id');
            $table->string('type');
+           $table->string('key');
            $table->string('value')->nullable();
+           $table->timestamps();
        });
 
     }

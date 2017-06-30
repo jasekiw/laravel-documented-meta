@@ -9,7 +9,7 @@ use LaravelDocumentedMeta\Tests\Fixtures\MetaAttributeFixture;
 use LaravelDocumentedMeta\Tests\TestCase;
 
 
-class MetaCacheTest extends TestCase
+class MetaTypeContainerTest extends TestCase
 {
     public function test_getAttributeByClass() {
 
@@ -47,5 +47,19 @@ class MetaCacheTest extends TestCase
         $all = $config->getAllMetaConfig($metaSubject);
         $this->assertEquals('testOption', $all['nested']['namespace'][0]['name'], "The attribute name should be testOption");
         $this->assertEquals('namespace.testOption', $all['flat'][0]['name'], "The attribute name should be testOption");
+    }
+
+    public function test_setMetaValue_getMetaValue() {
+        /** @var mixed $metaSubject */
+        $metaSubject = \Mockery::mock(HasMeta::class);
+        $metaSubject->shouldReceive('getAttributes')->andReturn([
+            'namespace' => [MetaAttributeFixture::class]
+        ]);
+        $metaSubject->shouldReceive('getMetaSubjectId')->andReturn(1);
+        $metaSubject->shouldReceive('getMetaTypeName')->andReturn('test');
+        $config = new MetaTypeContainer($metaSubject);
+        $config->setMetaValue(MetaAttributeFixture::class, $metaSubject, 'hi');
+        $attributeValue = $config->getMetaValue(MetaAttributeFixture::class, $metaSubject);
+        $this->assertEquals('hi', $attributeValue, "The attribute should return it's default value");
     }
 }

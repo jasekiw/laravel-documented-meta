@@ -3,10 +3,12 @@
 namespace LaravelDocumentedMeta\Concerns;
 
 use LaravelDocumentedMeta\Containers\MetaKernel;
+use LaravelDocumentedMeta\Contracts\HasMeta;
 
 /**
  * Trait RetrievesMeta
  * @package LaravelDocumentedMeta
+ * @mixin HasMeta
  */
 trait RetrievesMeta
 {
@@ -16,9 +18,7 @@ trait RetrievesMeta
      * @return mixed
      */
     public function getMetaValue($keyOrClass) {
-       /** @var \LaravelDocumentedMeta\Containers\MetaKernel  $kernel */
-       $kernel = app()->make(MetaKernel::class);
-       return $kernel->getMetaConfig($this)->getAttributeByClass($keyOrClass, $this)->get();
+       return  app()->make(MetaKernel::class)->getMetaConfig($this)->getMetaValue($keyOrClass, $this);
     }
 
     /**
@@ -27,9 +27,7 @@ trait RetrievesMeta
      * @return bool
      */
     public function setMetaValue($keyOrClass, $value) {
-        /** @var MetaKernel  $kernel */
-        $kernel = app()->make(MetaKernel::class);
-        return $kernel->getMetaConfig($this)->getAttributeByClass($keyOrClass, $this)->set($value);
+        return  app()->make(MetaKernel::class)->getMetaConfig($this)->setMetaValue($keyOrClass, $this, $value);
     }
 
 

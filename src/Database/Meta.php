@@ -11,4 +11,10 @@ use Illuminate\Database\Eloquent\Model;
 class Meta extends Model
 {
     protected $table = 'documented_meta';
+
+    protected $fillable = [
+        'subject_id',
+        'type',
+        'key'
+    ];
 }

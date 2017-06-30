@@ -29,10 +29,12 @@ abstract class MetaAttribute implements Arrayable
 
     /**
      * Sets the subject to apply to
-     * @param HasMeta|\LaravelDocumentedMeta\Concerns\RetrievesMeta $metaSubject
+     * @param HasMeta $metaSubject
+     * @return $this
      */
     public function setSubject(HasMeta $metaSubject) {
         $this->metaSubject = $metaSubject;
+        return $this;
     }
 
     /**

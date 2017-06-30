@@ -74,6 +74,33 @@ class MetaTypeContainer
     }
 
     /**
+     * @param string $keyOrClass
+     * @param HasMeta $subject
+     * @return mixed
+     */
+    public function getMetaValue(string $keyOrClass, HasMeta $subject) {
+        if(class_exists($keyOrClass))
+            return $this->getAttributeByClass($keyOrClass)->getAttribute()->setSubject($subject)->get();
+        else
+            return $this->getAttributeByName($keyOrClass)->getAttribute()->setSubject($subject)->get();
+    }
+
+
+    /**
+     * @param $keyOrClass
+     * @param HasMeta $subject
+     * @param $value
+     * @return bool
+     */
+    public function setMetaValue($keyOrClass, HasMeta $subject, $value) {
+        if(class_exists($keyOrClass))
+            return $this->getAttributeByClass($keyOrClass)->getAttribute()->setSubject($subject)->set($value);
+        else
+            return $this->getAttributeByName($keyOrClass)->getAttribute()->setSubject($subject)->set($value);
+    }
+
+
+    /**
      * Gets an attribute by it's programmatic name
      * @param string $name
      * @return AttributeContainer|null

@@ -12,7 +12,7 @@ use LaravelDocumentedMeta\Concerns\RetrievesMeta;
  */
 class MetaSubjectFixture implements HasMeta
 {
-    use LaravelDocumentedMeta\Concerns\CanRetrieveMeta;
+    use RetrievesMeta;
 
     /**
      * Get the meta attributes that are related to this model
@@ -21,7 +21,7 @@ class MetaSubjectFixture implements HasMeta
     public function getAttributes(): array
     {
         return [
-
+            'namespace' => MetaAttributeFixture::class
         ];
     }
 
