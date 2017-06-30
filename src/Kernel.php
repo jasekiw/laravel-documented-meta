@@ -15,11 +15,7 @@ use LaravelDocumentedMeta\AttributeParsing\Config;
  */
 abstract class Kernel
 {
-    /**
-     * The user to save values to
-     * @var Account
-     */
-    protected $user;
+
 
     /**
      * The attributes that will be registered with the kernel
@@ -45,11 +41,9 @@ abstract class Kernel
     /**
      * Kernel constructor.
      *
-     * @param Account $user
      */
-    function __construct(Account $user)
+    function __construct()
     {
-        $this->user = $user;
         $this->initializeAttributes();
     }
 
@@ -70,9 +64,10 @@ abstract class Kernel
     /**
      * Get attribute by class name
      * @param string $className The name of the class. ex Dog::class
+     * @param MetaSubject $subject
      * @return MetaOption|null
      */
-    public function getAttributeByClass(string $className)
+    public function getAttributeByClass(string $className, MetaSubject $subject)
     {
         if (isset($this->registeredAttributesByClassName[$className]))
             return $this->registeredAttributesByClassName[$className];
@@ -82,9 +77,10 @@ abstract class Kernel
     /**
      * Gets an attribute by it's programmatic name
      * @param string $name
+     * @param MetaSubject $subject
      * @return MetaOption|null
      */
-    public function getAttributeByName(string $name)
+    public function getAttributeByName(string $name, MetaSubject $subject)
     {
         if (isset($this->registeredAttributesByName[$name]))
             return $this->registeredAttributesByName[$name];
@@ -94,9 +90,10 @@ abstract class Kernel
     /**
      * Gets all of the meta options for the user
      * and their descriptions
+     * @param MetaSubject $subject
      * @return array
      */
-    public function getAllMetaConfig()
+    public function getAllMetaConfig(MetaSubject $subject)
     {
         $attributes = [];
         foreach ($this->registeredAttributesByName as $metaKey => $instance)

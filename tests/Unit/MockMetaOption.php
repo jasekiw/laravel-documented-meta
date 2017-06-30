@@ -1,4 +1,5 @@
 <?php
+namespace LaravelDocumentedMeta\Tests\Unit;
 
 /**
  * Class MockMetaOption

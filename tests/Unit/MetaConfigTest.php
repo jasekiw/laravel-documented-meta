@@ -1,7 +1,8 @@
 <?php
+namespace LaravelDocumentedMeta\Tests\Unit;
 
 use LaravelDocumentedMeta\AttributeParsing\Config;
-use PHPUnit\Framework\TestCase;
+use LaravelDocumentedMeta\Tests\TestCase;
 
 class MetaConfigTest extends TestCase
 {

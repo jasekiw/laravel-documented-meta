@@ -1,9 +1,12 @@
 <?php
+namespace LaravelDocumentedMeta\Tests\Unit;
 
 use App\Lib\Arrays\ArrayUtil;
 use Illuminate\Support\Collection;
 use LaravelDocumentedMeta\AttributeParsing\AttributeIterator;
-use PHPUnit\Framework\TestCase;
+use LaravelDocumentedMeta\MetaSubject;
+use LaravelDocumentedMeta\Tests\TestCase;
+
 
 /**
  * Class AttributeIteratorTest
@@ -16,7 +19,7 @@ class AttributeIteratorTest extends TestCase
     public function test_parse()
     {
 
-        $user = factory(User::class)->make();
+        $user = Mockery::mock(MetaSubject::class);
         $parser = new AttributeIterator();
         $possibleNames = new Collection([
             "namespace.test",
