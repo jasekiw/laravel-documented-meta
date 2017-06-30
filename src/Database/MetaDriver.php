@@ -5,16 +5,16 @@ namespace LaravelDocumentedMeta\Database;
 
 use LaravelDocumentedMeta\HasMeta;
 use LaravelDocumentedMeta\HasParentMeta;
-use LaravelDocumentedMeta\MetaOption;
+use LaravelDocumentedMeta\MetaAttribute;
 
 class MetaDriver
 {
     /**
      * @param HasMeta $metaSubject
-     * @param MetaOption $option
+     * @param MetaAttribute $option
      * @return mixed
      */
-    public function getMetaValue(HasMeta $metaSubject, MetaOption $option) {
+    public function getMetaValue(HasMeta $metaSubject, MetaAttribute $option) {
         $meta = Meta::query()->where('key', '=', $option->name())
                 ->where('subject_id','=', $metaSubject->getMetaSubjectId())
                 ->where('type', '=', $metaSubject->getMetaTypeName())->first();
@@ -29,11 +29,11 @@ class MetaDriver
 
     /**
      * @param HasMeta $metaSubject
-     * @param MetaOption $option
+     * @param MetaAttribute $option
      * @param $value
      * @return bool
      */
-    public function setMetaValue(HasMeta $metaSubject, MetaOption $option, $value) {
+    public function setMetaValue(HasMeta $metaSubject, MetaAttribute $option, $value) {
         $meta = Meta::query()->where('key', '=', $option->name())
             ->where('subject_id','=', $metaSubject->getMetaSubjectId())
             ->where('type', '=', $metaSubject->getMetaTypeName())->first();
@@ -49,10 +49,10 @@ class MetaDriver
 
     /**
      * @param HasMeta $metaSubject
-     * @param MetaOption $option
+     * @param MetaAttribute $option
      * @return bool
      */
-    public function deleteMetaValue(HasMeta $metaSubject, MetaOption $option) {
+    public function deleteMetaValue(HasMeta $metaSubject, MetaAttribute $option) {
         /** @var Meta $meta */
         $meta = Meta::query()->where('key', '=', $option->name())
             ->where('subject_id','=', $metaSubject->getMetaSubjectId())

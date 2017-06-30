@@ -3,6 +3,7 @@
 namespace LaravelDocumentedMeta;
 
 use Illuminate\Support\ServiceProvider;
+use LaravelDocumentedMeta\Database\MetaDriver;
 
 class DocumentedMetaServiceProvider extends ServiceProvider
 {
@@ -24,5 +25,6 @@ class DocumentedMetaServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(MetaKernel::class);
+        $this->app->singleton(MetaDriver::class);
     }
 }

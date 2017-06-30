@@ -3,7 +3,7 @@ namespace LaravelDocumentedMeta\Tests\Unit;
 
 
 use Illuminate\Support\Collection;
-use LaravelDocumentedMeta\ArrayUtil;
+use LaravelDocumentedMeta\Tests\ArrayUtil;
 use LaravelDocumentedMeta\AttributeParsing\AttributeIterator;
 use LaravelDocumentedMeta\Tests\TestCase;
 

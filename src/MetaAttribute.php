@@ -2,20 +2,14 @@
 
 namespace LaravelDocumentedMeta;
 
-
-use App\Account;
-use App\Lib\API\Regula\Enums\eVisualFieldType;
-use App\Models\OrganizationMeta;
-use App\Models\UserMeta;
-use App\User;
 use Illuminate\Contracts\Support\Arrayable;
 use LaravelDocumentedMeta\Database\MetaDriver;
 
 /**
- * Class MetaOption
+ * Class MetaAttribute
  * @package App\Lib\User
  */
-abstract class MetaOption implements Arrayable
+abstract class MetaAttribute implements Arrayable
 {
 
     /** @var  HasMeta */
@@ -23,7 +17,7 @@ abstract class MetaOption implements Arrayable
     protected $driver;
 
     /**
-     * MetaOption constructor.
+     * MetaAttribute constructor.
      * @param MetaDriver $driver
      */
     public function __construct(MetaDriver $driver )
@@ -241,24 +235,6 @@ abstract class MetaOption implements Arrayable
             'value' => $this->get(),
             'default' => $this->default()
         ];
-    }
-
-    /**
-     * Converts license attribute identifiers to attribute number identifiers
-     * @param array $attributesToStore
-     *
-     * @return array
-     */
-    protected function mapAttributeIdentifiersToNumbers(array $attributesToStore) {
-        $outgoingAttributes = [];
-        foreach($attributesToStore as $attribute)
-        {
-            if(is_int($attribute) && isset(eVisualFieldType::$fieldTypesToIdentifiers[$attribute]))
-                $outgoingAttributes[] = $attribute;
-            else if(is_string($attribute) && isset(eVisualFieldType::$identifierToFieldTypes[$attribute]))
-                $outgoingAttributes[] = eVisualFieldType::$identifierToFieldTypes[$attribute];
-        }
-        return $outgoingAttributes;
     }
 
 }

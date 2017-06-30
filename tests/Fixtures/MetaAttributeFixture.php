@@ -1,14 +1,14 @@
 <?php
-namespace LaravelDocumentedMeta\Tests\Unit;
+namespace LaravelDocumentedMeta\Tests\Fixtures;
 
-use LaravelDocumentedMeta\MetaOption;
+use LaravelDocumentedMeta\MetaAttribute;
 use LaravelDocumentedMeta\MetaValueType;
 
 /**
- * Class MetaOptionFixture
+ * Class MetaAttributeFixture
  * Meta Option Mock
  */
-class MetaOptionFixture extends MetaOption
+class MetaAttributeFixture extends MetaAttribute
 {
 
 

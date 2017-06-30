@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LaravelDocumentedMeta;
+namespace LaravelDocumentedMeta\Tests;
 
 /**
  * Class ArrayUtil

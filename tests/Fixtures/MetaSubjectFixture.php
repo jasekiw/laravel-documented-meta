@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelDocumentedMeta\Tests\Unit;
+namespace LaravelDocumentedMeta\Tests\Fixtures;
 
 
 use LaravelDocumentedMeta\HasMeta;

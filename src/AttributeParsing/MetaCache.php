@@ -5,7 +5,7 @@ namespace LaravelDocumentedMeta\AttributeParsing;
 
 use LaravelDocumentedMeta\Attribute\AttributeContainer;
 use LaravelDocumentedMeta\HasMeta;
-use LaravelDocumentedMeta\MetaOption;
+use LaravelDocumentedMeta\MetaAttribute;
 use LaravelDocumentedMeta\MetaSubject;
 use LaravelDocumentedMeta\Tests\Unit\MetaSubjectFixture;
 
@@ -40,7 +40,7 @@ class MetaCache
     {
         $this->configArray = $metaSubject->getAttributes();
         $this->configArray = (new AttributeIterator())->parse($metaSubject->getAttributes(), function($parentNamespace, $class) {
-            /** @var MetaOption $attribute */
+            /** @var MetaAttribute $attribute */
             app()->singleton($class);
             $attribute = app()->make($class);
             $attContainer = new AttributeContainer($parentNamespace, $attribute);

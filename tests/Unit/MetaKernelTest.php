@@ -6,6 +6,7 @@ namespace LaravelDocumentedMeta\Tests\Unit;
 use LaravelDocumentedMeta\AttributeParsing\MetaCache;
 use LaravelDocumentedMeta\HasMeta;
 use LaravelDocumentedMeta\MetaKernel;
+use LaravelDocumentedMeta\Tests\Fixtures\MetaSubjectFixture;
 use LaravelDocumentedMeta\Tests\TestCase;
 
 class MetaKernelTest extends TestCase

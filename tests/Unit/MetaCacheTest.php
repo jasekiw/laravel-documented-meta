@@ -5,6 +5,7 @@ namespace LaravelDocumentedMeta\Tests\Unit;
 
 use LaravelDocumentedMeta\AttributeParsing\MetaCache;
 use LaravelDocumentedMeta\HasMeta;
+use LaravelDocumentedMeta\Tests\Fixtures\MetaAttributeFixture;
 use LaravelDocumentedMeta\Tests\TestCase;
 
 
@@ -14,11 +15,11 @@ class MetaCacheTest extends TestCase
 
         $metaSubject = \Mockery::mock(HasMeta::class);
         $metaSubject->shouldReceive('getAttributes')->andReturn([
-            'namespace' => [MetaOptionFixture::class]
+            'namespace' => [MetaAttributeFixture::class]
         ]);
         $config = new MetaCache($metaSubject);
-        $attribute = $config->getAttributeByClass(MetaOptionFixture::class);
-        $this->assertTrue(is_a($attribute->getAttribute(), MetaOptionFixture::class));
+        $attribute = $config->getAttributeByClass(MetaAttributeFixture::class);
+        $this->assertTrue(is_a($attribute->getAttribute(), MetaAttributeFixture::class));
         $this->assertEquals('namespace.testOption', $attribute->getName());
 
     }
@@ -26,7 +27,7 @@ class MetaCacheTest extends TestCase
     public function test_getNameSpacedConfig() {
         $metaSubject = \Mockery::mock(HasMeta::class);
         $metaSubject->shouldReceive('getAttributes')->andReturn([
-            'namespace' => [MetaOptionFixture::class]
+            'namespace' => [MetaAttributeFixture::class]
         ]);
         $metaSubject->shouldReceive('getMetaSubjectId')->andReturn(1);
         $metaSubject->shouldReceive('getMetaTypeName')->andReturn('test');
@@ -38,7 +39,7 @@ class MetaCacheTest extends TestCase
     public function test_getAllMetaConfig() {
         $metaSubject = \Mockery::mock(HasMeta::class);
         $metaSubject->shouldReceive('getAttributes')->andReturn([
-            'namespace' => [MetaOptionFixture::class]
+            'namespace' => [MetaAttributeFixture::class]
         ]);
         $metaSubject->shouldReceive('getMetaSubjectId')->andReturn(1);
         $metaSubject->shouldReceive('getMetaTypeName')->andReturn('test');

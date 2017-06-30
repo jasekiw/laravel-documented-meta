@@ -19,7 +19,7 @@ class AttributeIterator
      * An Array that lays out the config that the iterator will parse.
      *
      * @param Closure $namespaceCallBack (string $namespace, Class $attributeClass) => ConstructedAttribute The callback will be called with the
-     * following signature for each MetaOption.
+     * following signature for each MetaAttribute.
      *
      * @return array The Constructed version of the attributes.
      */

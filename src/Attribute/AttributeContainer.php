@@ -3,7 +3,7 @@
 namespace LaravelDocumentedMeta\Attribute;
 
 use LaravelDocumentedMeta\HasMeta;
-use LaravelDocumentedMeta\MetaOption;
+use LaravelDocumentedMeta\MetaAttribute;
 
 /**
  * Class AttributeContainer
@@ -17,9 +17,9 @@ class AttributeContainer
     /**
      * AttributeContainer constructor.
      * @param string $namespace
-     * @param MetaOption $option
+     * @param MetaAttribute $option
      */
-    public function __construct(string $namespace = '', MetaOption $option)
+    public function __construct(string $namespace = '', MetaAttribute $option)
     {
         $this->nameSpace = $namespace;
         $this->option = $option;
@@ -35,7 +35,7 @@ class AttributeContainer
     }
 
     /**
-     * @return MetaOption
+     * @return MetaAttribute
      */
     public function getAttribute()
     {
