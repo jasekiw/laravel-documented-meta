@@ -1,8 +1,8 @@
 <?php
 namespace LaravelDocumentedMeta\Tests\Fixtures;
 
-use LaravelDocumentedMeta\MetaAttribute;
-use LaravelDocumentedMeta\MetaValueType;
+use LaravelDocumentedMeta\Attribute\MetaAttribute;
+use LaravelDocumentedMeta\Attribute\MetaValueType;
 
 /**
  * Class MetaAttributeFixture

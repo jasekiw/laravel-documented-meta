@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LaravelDocumentedMeta\AttributeParsing;
+namespace LaravelDocumentedMeta\Attribute;
 
 
 use Closure;

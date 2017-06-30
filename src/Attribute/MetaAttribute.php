@@ -1,9 +1,11 @@
 <?php
 
-namespace LaravelDocumentedMeta;
+namespace LaravelDocumentedMeta\Attribute;
 
 use Illuminate\Contracts\Support\Arrayable;
+use LaravelDocumentedMeta\Contracts\HasMeta;
 use LaravelDocumentedMeta\Database\MetaDriver;
+use LaravelDocumentedMeta\Concerns\RetrievesMeta;
 
 /**
  * Class MetaAttribute
@@ -27,7 +29,7 @@ abstract class MetaAttribute implements Arrayable
 
     /**
      * Sets the subject to apply to
-     * @param HasMeta|MetaSubject $metaSubject
+     * @param HasMeta|\LaravelDocumentedMeta\Concerns\RetrievesMeta $metaSubject
      */
     public function setSubject(HasMeta $metaSubject) {
         $this->metaSubject = $metaSubject;

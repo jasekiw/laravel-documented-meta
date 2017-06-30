@@ -3,15 +3,15 @@
 namespace LaravelDocumentedMeta\Database;
 
 
-use LaravelDocumentedMeta\HasMeta;
-use LaravelDocumentedMeta\HasParentMeta;
-use LaravelDocumentedMeta\MetaAttribute;
+use LaravelDocumentedMeta\Contracts\HasMeta;
+use LaravelDocumentedMeta\Contracts\HasParentMeta;
+use LaravelDocumentedMeta\Attribute\MetaAttribute;
 
 class MetaDriver
 {
     /**
      * @param HasMeta $metaSubject
-     * @param MetaAttribute $option
+     * @param \LaravelDocumentedMeta\Attribute\MetaAttribute $option
      * @return mixed
      */
     public function getMetaValue(HasMeta $metaSubject, MetaAttribute $option) {

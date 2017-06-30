@@ -2,8 +2,8 @@
 
 namespace LaravelDocumentedMeta\Attribute;
 
-use LaravelDocumentedMeta\HasMeta;
-use LaravelDocumentedMeta\MetaAttribute;
+use LaravelDocumentedMeta\Contracts\HasMeta;
+use LaravelDocumentedMeta\Attribute\MetaAttribute;
 
 /**
  * Class AttributeContainer
@@ -45,7 +45,7 @@ class AttributeContainer
     /**
      * Get the instance as an array.
      *
-     * @param HasMeta $subject
+     * @param \LaravelDocumentedMeta\Contracts\HasMeta $subject
      * @param bool $includePrefix
      * @return array
      */

@@ -4,7 +4,7 @@ namespace LaravelDocumentedMeta\Tests\Unit;
 
 use Illuminate\Support\Collection;
 use LaravelDocumentedMeta\Tests\ArrayUtil;
-use LaravelDocumentedMeta\AttributeParsing\AttributeIterator;
+use LaravelDocumentedMeta\Attribute\AttributeIterator;
 use LaravelDocumentedMeta\Tests\TestCase;
 
 

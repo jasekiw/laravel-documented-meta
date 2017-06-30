@@ -1,19 +1,18 @@
 <?php
 
 
-namespace LaravelDocumentedMeta\AttributeParsing;
+namespace LaravelDocumentedMeta\Containers;
 
 use LaravelDocumentedMeta\Attribute\AttributeContainer;
-use LaravelDocumentedMeta\HasMeta;
-use LaravelDocumentedMeta\MetaAttribute;
-use LaravelDocumentedMeta\MetaSubject;
-use LaravelDocumentedMeta\Tests\Unit\MetaSubjectFixture;
+use LaravelDocumentedMeta\Attribute\AttributeIterator;
+use LaravelDocumentedMeta\Contracts\HasMeta;
+use LaravelDocumentedMeta\Concerns\RetrievesMeta;
 
 /**
- * Class MetaCache
+ * Class MetaTypeContainer
  * @package App\Lib\User\Meta\AttributeParsing
  */
-class MetaCache
+class MetaTypeContainer
 {
     /**
      * @var AttributeContainer[]
@@ -31,16 +30,16 @@ class MetaCache
     protected $configArray;
 
     /**
-     * MetaCache constructor.
-     * @param HasMeta|MetaSubject $metaSubject
-     * @internal param MetaSubject $metSubject
+     * MetaTypeContainer constructor.
+     * @param \LaravelDocumentedMeta\Contracts\HasMeta|RetrievesMeta $metaSubject
+     * @internal param RetrievesMeta $metSubject
      * @internal param array $configArray
      */
     public function __construct(HasMeta $metaSubject)
     {
         $this->configArray = $metaSubject->getAttributes();
         $this->configArray = (new AttributeIterator())->parse($metaSubject->getAttributes(), function($parentNamespace, $class) {
-            /** @var MetaAttribute $attribute */
+            /** @var \LaravelDocumentedMeta\Attribute\MetaAttribute $attribute */
             app()->singleton($class);
             $attribute = app()->make($class);
             $attContainer = new AttributeContainer($parentNamespace, $attribute);
@@ -51,7 +50,7 @@ class MetaCache
     }
 
     /**
-     * @param HasMeta $subject
+     * @param \LaravelDocumentedMeta\Contracts\HasMeta $subject
      * @return array
      */
     public function getNameSpacedConfig(HasMeta $subject) {
@@ -89,7 +88,7 @@ class MetaCache
     /**
      * Gets all of the meta options for the user
      * and their descriptions
-     * @param HasMeta $subject
+     * @param \LaravelDocumentedMeta\Contracts\HasMeta $subject
      * @return array
      */
     public function getAllMetaConfig(HasMeta $subject)

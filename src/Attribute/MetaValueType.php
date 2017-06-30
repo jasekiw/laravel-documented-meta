@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelDocumentedMeta;
+namespace LaravelDocumentedMeta\Attribute;
 
 /**
  * Class MetaValueType
@@ -11,5 +11,8 @@ class MetaValueType
     const
         BOOLEAN = 'boolean',
         ARRAY = 'array',
+        INTEGER = 'integer',
+        FLOAT = 'float',
+        OBJECT = 'object',
         STRING = 'string';
 }

@@ -3,8 +3,8 @@
 namespace LaravelDocumentedMeta\Tests\Fixtures;
 
 
-use LaravelDocumentedMeta\HasMeta;
-use LaravelDocumentedMeta\MetaSubject;
+use LaravelDocumentedMeta\Contracts\HasMeta;
+use LaravelDocumentedMeta\Concerns\RetrievesMeta;
 
 /**
  * Class MetaSubjectFixture
@@ -12,7 +12,7 @@ use LaravelDocumentedMeta\MetaSubject;
  */
 class MetaSubjectFixture implements HasMeta
 {
-    use MetaSubject;
+    use LaravelDocumentedMeta\Concerns\CanRetrieveMeta;
 
     /**
      * Get the meta attributes that are related to this model

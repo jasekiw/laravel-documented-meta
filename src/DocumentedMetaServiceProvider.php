@@ -3,8 +3,13 @@
 namespace LaravelDocumentedMeta;
 
 use Illuminate\Support\ServiceProvider;
+use LaravelDocumentedMeta\Containers\MetaKernel;
 use LaravelDocumentedMeta\Database\MetaDriver;
 
+/**
+ * Class DocumentedMetaServiceProvider
+ * @package LaravelDocumentedMeta
+ */
 class DocumentedMetaServiceProvider extends ServiceProvider
 {
     /**

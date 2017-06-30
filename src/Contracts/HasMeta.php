@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Jason
- * Date: 6/30/2017
- * Time: 11:38 AM
- */
 
-namespace LaravelDocumentedMeta;
+namespace LaravelDocumentedMeta\Contracts;
 
 
 /**

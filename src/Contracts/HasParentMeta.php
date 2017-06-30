@@ -1,6 +1,8 @@
 <?php
 
-namespace LaravelDocumentedMeta;
+namespace LaravelDocumentedMeta\Contracts;
+
+use LaravelDocumentedMeta\Contracts\HasMeta;
 
 /**
  * Interface HasParentMeta

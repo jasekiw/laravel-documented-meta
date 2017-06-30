@@ -3,8 +3,8 @@
 namespace LaravelDocumentedMeta\Tests\Unit;
 
 
-use LaravelDocumentedMeta\AttributeParsing\MetaCache;
-use LaravelDocumentedMeta\HasMeta;
+use LaravelDocumentedMeta\Containers\MetaTypeContainer;
+use LaravelDocumentedMeta\Contracts\HasMeta;
 use LaravelDocumentedMeta\Tests\Fixtures\MetaAttributeFixture;
 use LaravelDocumentedMeta\Tests\TestCase;
 
@@ -17,7 +17,7 @@ class MetaCacheTest extends TestCase
         $metaSubject->shouldReceive('getAttributes')->andReturn([
             'namespace' => [MetaAttributeFixture::class]
         ]);
-        $config = new MetaCache($metaSubject);
+        $config = new MetaTypeContainer($metaSubject);
         $attribute = $config->getAttributeByClass(MetaAttributeFixture::class);
         $this->assertTrue(is_a($attribute->getAttribute(), MetaAttributeFixture::class));
         $this->assertEquals('namespace.testOption', $attribute->getName());
@@ -31,7 +31,7 @@ class MetaCacheTest extends TestCase
         ]);
         $metaSubject->shouldReceive('getMetaSubjectId')->andReturn(1);
         $metaSubject->shouldReceive('getMetaTypeName')->andReturn('test');
-        $config = new MetaCache($metaSubject);
+        $config = new MetaTypeContainer($metaSubject);
         $all = $config->getNameSpacedConfig($metaSubject);
         $this->assertEquals('testOption', $all['namespace'][0]['name'], "The attribute name should be testOption");
     }
@@ -43,7 +43,7 @@ class MetaCacheTest extends TestCase
         ]);
         $metaSubject->shouldReceive('getMetaSubjectId')->andReturn(1);
         $metaSubject->shouldReceive('getMetaTypeName')->andReturn('test');
-        $config = new MetaCache($metaSubject);
+        $config = new MetaTypeContainer($metaSubject);
         $all = $config->getAllMetaConfig($metaSubject);
         $this->assertEquals('testOption', $all['nested']['namespace'][0]['name'], "The attribute name should be testOption");
         $this->assertEquals('namespace.testOption', $all['flat'][0]['name'], "The attribute name should be testOption");
