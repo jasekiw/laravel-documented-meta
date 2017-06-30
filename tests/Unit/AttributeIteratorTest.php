@@ -19,8 +19,6 @@ class AttributeIteratorTest extends TestCase
      */
     public function test_parse()
     {
-
-        $user = new MetaSubjectFixture();
         $parser = new AttributeIterator();
         $possibleNames = new Collection([
             "namespace.test1",
@@ -36,7 +34,7 @@ class AttributeIteratorTest extends TestCase
             ],
             'test3'
         ];
-        $instance = $parser->parse($originalConfig, function (string $namespace, $class) use (&$possibleNames, $user) {
+        $instance = $parser->parse($originalConfig, function (string $namespace, $class) use (&$possibleNames) {
             $this->assertTrue($possibleNames->contains((!empty($namespace) ? $namespace . '.' : '') . $class));
             $possibleNames = $possibleNames->filter(function ($possibleName) use ($namespace, $class) {
                 return !(((!empty($namespace) ? $namespace . '.' : '') . $class) == $possibleName);

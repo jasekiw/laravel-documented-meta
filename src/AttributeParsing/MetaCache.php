@@ -3,34 +3,27 @@
 
 namespace LaravelDocumentedMeta\AttributeParsing;
 
-
-use Illuminate\Contracts\Support\Arrayable;
 use LaravelDocumentedMeta\Attribute\AttributeContainer;
 use LaravelDocumentedMeta\HasMeta;
 use LaravelDocumentedMeta\MetaOption;
 use LaravelDocumentedMeta\MetaSubject;
+use LaravelDocumentedMeta\Tests\Unit\MetaSubjectFixture;
 
 /**
  * Class MetaCache
  * @package App\Lib\User\Meta\AttributeParsing
  */
-class MetaCache implements Arrayable
+class MetaCache
 {
     /**
-     * @var MetaOption[]
+     * @var AttributeContainer[]
      */
     private $registeredAttributesByName = [];
 
     /**
-     * @var MetaOption[]
+     * @var AttributeContainer[]
      */
     private $registeredAttributesByClassName = [];
-
-    /**
-     * @var MetaCache
-     */
-    private $nameSpacedAttributes;
-
 
     /**
      * @var array
@@ -46,40 +39,35 @@ class MetaCache implements Arrayable
     public function __construct(HasMeta $metaSubject)
     {
         $this->configArray = $metaSubject->getAttributes();
-        (new AttributeIterator())->parse($metaSubject->getAttributes(), function($parentNamespace, $class) {
+        $this->configArray = (new AttributeIterator())->parse($metaSubject->getAttributes(), function($parentNamespace, $class) {
             /** @var MetaOption $attribute */
             app()->singleton($class);
             $attribute = app()->make($class);
-            $attContainer = new AttributeContainer($parentNamespace, $class);
+            $attContainer = new AttributeContainer($parentNamespace, $attribute);
             $this->registeredAttributesByName[$attContainer->getName()] = $attContainer;
             $this->registeredAttributesByClassName[get_class($attribute)] = $attContainer;
             return $attContainer;
         });
     }
 
-
     /**
-     * Get the instance as an array.
-     *
+     * @param HasMeta $subject
      * @return array
      */
-    public function toArray()
-    {
-        return (new AttributeIterator())->parse($this->configArray, function ($namespace, $object) {
-            /** @var Arrayable $object*/
-            return $object->toArray();
+    public function getNameSpacedConfig(HasMeta $subject) {
+
+       return (new AttributeIterator())->parse($this->configArray, function ($namespace, AttributeContainer &$object) use($subject) {
+            return $object->toArray($subject, false);
         });
 
     }
 
-
     /**
      * Get attribute by class name
      * @param string $className The name of the class. ex Dog::class
-     * @param HasMeta|MetaSubject $subject
-     * @return MetaOption|null
+     * @return AttributeContainer
      */
-    public function getAttributeByClass(string $className, HasMeta $subject)
+    public function getAttributeByClass(string $className)
     {
         if (isset($this->registeredAttributesByClassName[$className]))
             return $this->registeredAttributesByClassName[$className];
@@ -89,10 +77,9 @@ class MetaCache implements Arrayable
     /**
      * Gets an attribute by it's programmatic name
      * @param string $name
-     * @param HasMeta|MetaSubject $subject
-     * @return MetaOption|null
+     * @return AttributeContainer|null
      */
-    public function getAttributeByName(string $name, HasMeta $subject)
+    public function getAttributeByName(string $name)
     {
         if (isset($this->registeredAttributesByName[$name]))
             return $this->registeredAttributesByName[$name];
@@ -102,16 +89,16 @@ class MetaCache implements Arrayable
     /**
      * Gets all of the meta options for the user
      * and their descriptions
-     * @param HasMeta|MetaSubject $subject
+     * @param HasMeta $subject
      * @return array
      */
     public function getAllMetaConfig(HasMeta $subject)
     {
         $attributes = [];
         foreach ($this->registeredAttributesByName as $metaKey => $instance)
-            array_push($attributes, $instance->toArray());
+            array_push($attributes, $instance->toArray($subject));
         return [
-            'nested' => $this->nameSpacedAttributes->toArray(),
+            'nested' => $this->getNameSpacedConfig($subject),
             'flat' => $attributes
         ];
     }

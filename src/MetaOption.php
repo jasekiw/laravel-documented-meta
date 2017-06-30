@@ -9,6 +9,7 @@ use App\Models\OrganizationMeta;
 use App\Models\UserMeta;
 use App\User;
 use Illuminate\Contracts\Support\Arrayable;
+use LaravelDocumentedMeta\Database\MetaDriver;
 
 /**
  * Class MetaOption
@@ -17,16 +18,17 @@ use Illuminate\Contracts\Support\Arrayable;
 abstract class MetaOption implements Arrayable
 {
 
-    /** @var  MetaSubject */
+    /** @var  HasMeta */
     protected $metaSubject;
+    protected $driver;
 
     /**
-     * Creates a new instance of a MetaOption.
      * MetaOption constructor.
+     * @param MetaDriver $driver
      */
-    public function __construct()
+    public function __construct(MetaDriver $driver )
     {
-
+        $this->driver = $driver;
     }
 
     /**
@@ -96,28 +98,16 @@ abstract class MetaOption implements Arrayable
      * @return bool
      */
     protected function saveMetaValue($value) {
-        if(is_a($this->user, 'App\User')) {
-            return UserMeta::saveValue($this->name(), $value, $this->user);
-        }else if(is_a($this->user, 'App\Models\Organization')){
-            return OrganizationMeta::saveValue($this->name(), $value, $this->user);
-        }
-        return false;
+        return $this->driver->setMetaValue($this->metaSubject, $this, $value);
     }
 
     /**
      * Gets a meta value
-     * @param null|mixed $default The default value if no value is found
      * @return null|string
      */
-    protected function getMetaValue($default = null) {
-        if(is_a($this->user, 'App\User')) {
-            $value = UserMeta::getValue($this->name(), $this->user);
-        }else if(is_a($this->user, 'App\Models\Organization')){
-            $value = OrganizationMeta::getValue($this->name(), $this->user);
-        }
-        if($value === null)
-            return $default;
-        return $value;
+    protected function getMetaValue() {
+
+        return $this->driver->getMetaValue($this->metaSubject, $this);
     }
 
 
@@ -128,14 +118,7 @@ abstract class MetaOption implements Arrayable
      */
     protected function removeMetaValue()
     {
-        if(is_a($this->user, 'App\User')) {
-            $row = UserMeta::whereUserId($this->user->id)->where('key', '=', $this->name())->first();
-        }else if(is_a($this->user, 'App\Models\Organization')){
-            $row = OrganizationMeta::whereOrgId($this->user->id)->where('key', '=', $this->name())->first();
-        }
-        if(!empty($row))
-            return $row->delete();
-        return false;
+        return $this->driver->deleteMetaValue($this->metaSubject, $this);
     }
 
 
