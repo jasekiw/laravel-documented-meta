@@ -23,4 +23,11 @@ interface MetaProvider
      * @return bool
      */
     public function setMetaValue(HasMeta $metaSubject, MetaAttribute $option, $value) : bool;
+
+    /**
+     * @param HasMeta $metaSubject
+     * @param MetaAttribute $option
+     * @return bool
+     */
+    public function deleteMetaValue(HasMeta $metaSubject, MetaAttribute $option) : bool;
 }

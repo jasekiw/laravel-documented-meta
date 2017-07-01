@@ -4,7 +4,7 @@ namespace LaravelDocumentedMeta\Tests\Fixtures\Subject;
 
 use LaravelDocumentedMeta\Concerns\RetrievesMeta;
 use LaravelDocumentedMeta\Contracts\HasMeta;
-use LaravelDocumentedMeta\Tests\Fixtures\MetaAttributeFixture;
+use LaravelDocumentedMeta\Tests\Fixtures\StringAttributeFixture;
 
 class ParentSubjectFixture implements HasMeta
 {
@@ -17,7 +17,7 @@ class ParentSubjectFixture implements HasMeta
     public function getMetaAttributes(): array
     {
         return [
-            'namespace' => MetaAttributeFixture::class
+            'namespace' => StringAttributeFixture::class
         ];
     }
 

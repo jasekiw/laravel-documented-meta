@@ -4,14 +4,10 @@ namespace LaravelDocumentedMeta\Tests\Fixtures;
 
 use LaravelDocumentedMeta\Attribute\MetaAttribute;
 use LaravelDocumentedMeta\Attribute\MetaValueType;
+use LaravelDocumentedMeta\Attribute\Types\IntegerMetaType;
 
-/**
- * Class MetaAttributeFixture
- * Meta Option Mock
- */
-class MetaAttributeFixture extends MetaAttribute
+class IntegerAttributeFixture  extends MetaAttribute
 {
-
 
     /**
      * The programmatic name for this attribute.
@@ -19,7 +15,7 @@ class MetaAttributeFixture extends MetaAttribute
      */
     public function name(): string
     {
-        return 'testOption';
+        return 'integerAttributeFixture';
     }
 
     /**
@@ -28,7 +24,7 @@ class MetaAttributeFixture extends MetaAttribute
      */
     public function label(): string
     {
-        return 'Test Option';
+        return 'Integer Attribute Fixture';
     }
 
     /**
@@ -37,7 +33,7 @@ class MetaAttributeFixture extends MetaAttribute
      */
     public function description(): string
     {
-        return 'Some Description';
+       return 'foo';
     }
 
     /**
@@ -46,7 +42,7 @@ class MetaAttributeFixture extends MetaAttribute
      */
     public function default()
     {
-        return 'none';
+        return 0;
     }
 
     /**
@@ -55,26 +51,7 @@ class MetaAttributeFixture extends MetaAttribute
      */
     public function type(): string
     {
-        return MetaValueType::STRING;
-    }
-
-    /**
-     * Gets the value
-     * @return string
-     */
-    public function get()
-    {
-        return $this->getStringValue();
-    }
-
-    /**
-     * The value can only be the allowed authentication methods
-     * @param string $value
-     * @return bool
-     */
-    public function set($value)
-    {
-        return $this->saveStringValue($value);
+        return IntegerMetaType::class;
     }
 
     /**
@@ -83,9 +60,25 @@ class MetaAttributeFixture extends MetaAttribute
      */
     public function possibleValues(): array
     {
-        return [
-            'none',
-            'test'
-        ];
+        return [0,1,2,3,4];
+    }
+
+    /**
+     * Gets the value
+     * @return mixed
+     */
+    public function get()
+    {
+
+    }
+
+    /**
+     * Sets the value
+     * @param $value
+     * @return bool
+     */
+    public function set($value)
+    {
+        return $this->int->getInteger();
     }
 }

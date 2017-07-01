@@ -3,9 +3,17 @@
 namespace LaravelDocumentedMeta\Attribute;
 
 use Illuminate\Contracts\Support\Arrayable;
+use LaravelDocumentedMeta\Attribute\Types\ArrayMetaType;
+use LaravelDocumentedMeta\Attribute\Types\BooleanMetaType;
+use LaravelDocumentedMeta\Attribute\Types\FloatMetaType;
+use LaravelDocumentedMeta\Attribute\Types\IntegerMetaType;
+use LaravelDocumentedMeta\Attribute\Types\ObjectMetaType;
+use LaravelDocumentedMeta\Attribute\Types\StringMetaType;
 use LaravelDocumentedMeta\Contracts\HasMeta;
+use LaravelDocumentedMeta\Storage\ArrayMetaProvider;
 use LaravelDocumentedMeta\Storage\Database\DatabaseMetaProvider;
 use LaravelDocumentedMeta\Concerns\RetrievesMeta;
+use LaravelDocumentedMeta\Storage\MetaProvider;
 
 /**
  * Class MetaAttribute
@@ -20,17 +28,44 @@ abstract class MetaAttribute implements Arrayable
     protected $metaSubject;
 
     /**
-     * @var DatabaseMetaProvider
+     * @var MetaProvider
      */
     protected $driver;
 
+    /** @var  ArrayMetaType  */
+    protected $array;
+    /** @var  BooleanMetaType */
+    protected $boolean;
+    /** @var  FloatMetaType */
+    protected $float;
+    /** @var  IntegerMetaType */
+    protected $int;
+    /** @var  ObjectMetaType */
+    protected $object;
+    /** @var  StringMetaType */
+    protected $string;
+
+    private $types = [];
     /**
      * MetaAttribute constructor.
-     * @param DatabaseMetaProvider $driver
+     * @param MetaProvider $driver
+
      */
-    public function __construct(DatabaseMetaProvider $driver )
+    public function __construct(MetaProvider $driver)
     {
         $this->driver = $driver;
+        $this->array = new ArrayMetaType($this);
+        $this->types[ArrayMetaType::class] = $this->array;
+        $this->boolean = new BooleanMetaType($this);
+        $this->types[BooleanMetaType::class] = $this->boolean;
+        $this->float = new FloatMetaType($this);
+        $this->types[FloatMetaType::class] = $this->float;
+        $this->int = new IntegerMetaType($this);
+        $this->types[IntegerMetaType::class] = $this->int;
+        $this->object = new ObjectMetaType($this);
+        $this->types[ObjectMetaType::class] = $this->object;
+        $this->string = new StringMetaType($this);
+        $this->types[StringMetaType::class] = $this->string;
     }
 
     /**
@@ -38,7 +73,8 @@ abstract class MetaAttribute implements Arrayable
      * @param HasMeta $metaSubject
      * @return $this
      */
-    public function setSubject(HasMeta $metaSubject) {
+    public function setSubject(HasMeta $metaSubject)
+    {
         $this->metaSubject = $metaSubject;
         return $this;
     }
@@ -47,20 +83,20 @@ abstract class MetaAttribute implements Arrayable
      * The programmatic name for this attribute.
      * @return string
      */
-    public abstract function name() : string;
+    public abstract function name(): string;
 
 
     /**
      * The human readable label for the attribute
      * @return string
      */
-    public abstract function label() : string;
+    public abstract function label(): string;
 
     /**
      * The description for this attribute
      * @return string
      */
-    public abstract function description() : string;
+    public abstract function description(): string;
 
     /**
      * Gets the default value of this attribute
@@ -72,27 +108,32 @@ abstract class MetaAttribute implements Arrayable
      * The data type of the attribute. Possible values: "string", "boolean", "array"
      * @return string
      */
-    public abstract function type() : string;
+    public abstract function type(): string;
 
 
     /**
      * Get the possibly values that this meta attribute can have for documentation.
      * @return array
      */
-    public abstract function possibleValues() : array;
+    public abstract function possibleValues(): array;
 
     /**
      * Gets the value
      * @return mixed
      */
-    public abstract function get();
+    public function get() {
+        return $this->types[$this->type()]->get();
+    }
 
     /**
      * Sets the value
      * @param $value
      * @return bool
      */
-    public abstract function set($value);
+    public function set($value) : bool {
+        return $this->types[$this->type()]->set($value);
+    }
+
 
     /**
      * Removes the value
@@ -108,7 +149,8 @@ abstract class MetaAttribute implements Arrayable
      *
      * @return bool
      */
-    public function saveStringValue($value) {
+    public function setRawValue($value)
+    {
         return $this->driver->setMetaValue($this->metaSubject, $this, $value);
     }
 
@@ -116,7 +158,8 @@ abstract class MetaAttribute implements Arrayable
      * Gets a meta value
      * @return null|string
      */
-    public function getStringValue() {
+    public function getRawValue()
+    {
 
         return $this->driver->getMetaValue($this->metaSubject, $this);
     }

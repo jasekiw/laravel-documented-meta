@@ -6,7 +6,7 @@ namespace LaravelDocumentedMeta\Tests\Unit;
 use LaravelDocumentedMeta\Containers\AttributeContainer;
 use LaravelDocumentedMeta\Containers\MetaSubjectContainer;
 use LaravelDocumentedMeta\Contracts\HasMeta;
-use LaravelDocumentedMeta\Tests\Fixtures\MetaAttributeFixture;
+use LaravelDocumentedMeta\Tests\Fixtures\StringAttributeFixture;
 use LaravelDocumentedMeta\Tests\TestCase;
 
 
@@ -16,11 +16,11 @@ class MetaTypeContainerTest extends TestCase
 
         $metaSubject = \Mockery::mock(HasMeta::class);
         $metaSubject->shouldReceive('getMetaAttributes')->andReturn([
-            'namespace' => [MetaAttributeFixture::class]
+            'namespace' => [StringAttributeFixture::class]
         ]);
         $config = new MetaSubjectContainer($metaSubject, new AttributeContainer());
-        $attribute = $config->getAttributeByClass(MetaAttributeFixture::class);
-        $this->assertTrue(is_a($attribute->getAttribute(), MetaAttributeFixture::class));
+        $attribute = $config->getAttributeByClass(StringAttributeFixture::class);
+        $this->assertTrue(is_a($attribute->getAttribute(), StringAttributeFixture::class));
         $this->assertEquals('namespace.testOption', $attribute->getName());
 
     }
@@ -28,7 +28,7 @@ class MetaTypeContainerTest extends TestCase
     public function test_getNameSpacedConfig() {
         $metaSubject = \Mockery::mock(HasMeta::class);
         $metaSubject->shouldReceive('getMetaAttributes')->andReturn([
-            'namespace' => [MetaAttributeFixture::class]
+            'namespace' => [StringAttributeFixture::class]
         ]);
         $metaSubject->shouldReceive('getMetaSubjectId')->andReturn(1);
         $metaSubject->shouldReceive('getMetaTypeName')->andReturn('test');
@@ -40,7 +40,7 @@ class MetaTypeContainerTest extends TestCase
     public function test_getAllMetaConfig() {
         $metaSubject = \Mockery::mock(HasMeta::class);
         $metaSubject->shouldReceive('getMetaAttributes')->andReturn([
-            'namespace' => [MetaAttributeFixture::class]
+            'namespace' => [StringAttributeFixture::class]
         ]);
         $metaSubject->shouldReceive('getMetaSubjectId')->andReturn(1);
         $metaSubject->shouldReceive('getMetaTypeName')->andReturn('test');
@@ -54,13 +54,13 @@ class MetaTypeContainerTest extends TestCase
         /** @var mixed $metaSubject */
         $metaSubject = \Mockery::mock(HasMeta::class);
         $metaSubject->shouldReceive('getMetaAttributes')->andReturn([
-            'namespace' => [MetaAttributeFixture::class]
+            'namespace' => [StringAttributeFixture::class]
         ]);
         $metaSubject->shouldReceive('getMetaSubjectId')->andReturn(1);
         $metaSubject->shouldReceive('getMetaTypeName')->andReturn('test');
         $config = new MetaSubjectContainer($metaSubject, new AttributeContainer());
-        $config->setMetaValue(MetaAttributeFixture::class, $metaSubject, 'hi');
-        $attributeValue = $config->getMetaValue(MetaAttributeFixture::class, $metaSubject);
+        $config->setMetaValue(StringAttributeFixture::class, $metaSubject, 'hi');
+        $attributeValue = $config->getMetaValue(StringAttributeFixture::class, $metaSubject);
         $this->assertEquals('hi', $attributeValue, "The attribute should return it's default value");
     }
 }

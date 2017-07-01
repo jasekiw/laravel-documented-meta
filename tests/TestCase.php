@@ -4,6 +4,8 @@ namespace LaravelDocumentedMeta\Tests;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Connection;
 use LaravelDocumentedMeta\DocumentedMetaServiceProvider;
+use LaravelDocumentedMeta\Storage\ArrayMetaProvider;
+use LaravelDocumentedMeta\Storage\MetaProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
@@ -14,6 +16,7 @@ class TestCase extends BaseTestCase
     {
         parent::setUp();
         $this->artisan('migrate', ['--database' => 'testbench']);
+        app()->singleton(MetaProvider::class, ArrayMetaProvider::class);
     }
 
     protected function getPackageProviders($app)
