@@ -13,7 +13,6 @@ use LaravelDocumentedMeta\Attribute\Types\StringMetaType;
 class StringAttributeFixture extends MetaAttribute
 {
 
-
     /**
      * The programmatic name for this attribute.
      * @return string
@@ -59,24 +58,6 @@ class StringAttributeFixture extends MetaAttribute
         return StringMetaType::class;
     }
 
-    /**
-     * Gets the value
-     * @return string
-     */
-    public function get()
-    {
-        return $this->getRawValue();
-    }
-
-    /**
-     * The value can only be the allowed authentication methods
-     * @param string $value
-     * @return bool
-     */
-    public function set($value) : bool
-    {
-        return $this->setRawValue($value);
-    }
 
     /**
      * Get the possibly values that this meta attribute can have for documentation.

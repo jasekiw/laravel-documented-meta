@@ -3,7 +3,6 @@
 namespace LaravelDocumentedMeta\Tests\Fixtures;
 
 use LaravelDocumentedMeta\Attribute\MetaAttribute;
-use LaravelDocumentedMeta\Attribute\MetaValueType;
 use LaravelDocumentedMeta\Attribute\Types\IntegerMetaType;
 
 class IntegerAttributeFixture  extends MetaAttribute
@@ -36,14 +35,6 @@ class IntegerAttributeFixture  extends MetaAttribute
        return 'foo';
     }
 
-    /**
-     * Gets the default value of this attribute
-     * @return mixed
-     */
-    public function default()
-    {
-        return 0;
-    }
 
     /**
      * The data type of the attribute. Possible values: "string", "boolean", "array"
@@ -63,22 +54,4 @@ class IntegerAttributeFixture  extends MetaAttribute
         return [0,1,2,3,4];
     }
 
-    /**
-     * Gets the value
-     * @return mixed
-     */
-    public function get()
-    {
-
-    }
-
-    /**
-     * Sets the value
-     * @param $value
-     * @return bool
-     */
-    public function set($value)
-    {
-        return $this->int->getInteger();
-    }
 }
