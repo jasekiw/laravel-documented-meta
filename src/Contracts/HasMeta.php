@@ -41,4 +41,11 @@ interface HasMeta
      */
     public function setMeta(string $nameOrClass, $value) : bool;
 
+    /**
+     * Check whether the given attribute has a value
+     * @param string $keyOrClass
+     * @return bool
+     */
+    public function metaExists(string $keyOrClass) : bool;
+
 }

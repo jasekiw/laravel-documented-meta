@@ -2,7 +2,6 @@
 
 namespace LaravelDocumentedMeta\Storage;
 
-use LaravelDocumentedMeta\Attribute\MetaAttribute;
 use LaravelDocumentedMeta\Contracts\HasMeta;
 use LaravelDocumentedMeta\Contracts\HasParentMeta;
 
@@ -13,67 +12,69 @@ class ArrayMetaProvider implements MetaProvider
 
     /**
      *
-     * @param HasMeta $metaSubject
-     * @param MetaAttribute $option
+     * @param HasMeta $subject
+     * @param string $attributeName
+     * @param null $default
      * @return mixed
      */
-    public function getMetaValue(HasMeta $metaSubject, MetaAttribute $option)
+    public function getMetaValue(HasMeta $subject, string $attributeName, $default = null)
     {
-        if ($this->hasAttribute($metaSubject, $option->name()))
-            return $this->attributesStorage[$metaSubject->getMetaTypeName()][$option->name()][$metaSubject->getMetaSubjectId()];
+        if ($this->hasAttribute($attributeName, $subject->getMetaSubjectId(), $subject->getMetaTypeName()))
+            return $this->attributesStorage[$subject->getMetaTypeName()][$attributeName][$subject->getMetaSubjectId()];
 
-        if (!$metaSubject instanceof HasParentMeta)
-            return $option->default();
+        if (!$subject instanceof HasParentMeta)
+            return $default;
 
-        return $this->getMetaValue($metaSubject->getParentMetaSubject(), $option);
+        return $this->getMetaValue($subject->getParentMetaSubject(), $attributeName, $default);
     }
 
     /**
      *
-     * @param HasMeta $metaSubject
-     * @param MetaAttribute $option
+     * @param HasMeta $subject
+     * @param string $attributeName
      * @param $value
      * @return bool
      */
-    public function setMetaValue(HasMeta $metaSubject, MetaAttribute $option, $value): bool
+    public function setMetaValue(HasMeta $subject, string $attributeName, $value): bool
     {
-        if ($this->hasAttribute($metaSubject, $option->name())) {
-            $this->attributesStorage[$metaSubject->getMetaTypeName()][$option->name()][$metaSubject->getMetaSubjectId()] = (string)$value;
+        if ($this->hasAttribute($attributeName, $subject->getMetaSubjectId(), $subject->getMetaTypeName())) {
+            $this->attributesStorage[$subject->getMetaTypeName()][$attributeName][$subject->getMetaSubjectId()] = (string)$value;
             return true;
         }
-        $typeName = $metaSubject->getMetaTypeName();
-        $attName = $option->name();
-        $id = $metaSubject->getMetaSubjectId();
+        $typeName = $subject->getMetaTypeName();
+        $id = $subject->getMetaSubjectId();
         if (!isset($this->attributesStorage[$typeName]))
             $this->attributesStorage[$typeName] = [];
-        if (!isset($this->attributesStorage[$typeName][$attName]))
-            $this->attributesStorage[$typeName][$attName] = [];
-        if (!isset($this->attributesStorage[$typeName][$attName][$id]))
-            $this->attributesStorage[$typeName][$attName][$id] = (string)$value;
+        if (!isset($this->attributesStorage[$typeName][$attributeName]))
+            $this->attributesStorage[$typeName][$attributeName] = [];
+        if (!isset($this->attributesStorage[$typeName][$attributeName][$id]))
+            $this->attributesStorage[$typeName][$attributeName][$id] = (string)$value;
         return true;
     }
 
     /**
-     * @param HasMeta $metaSubject
-     * @param string $optionName
+     * @param string $attributeName
+     * @param int $subjectId
+     * @param string $metaType
      * @return bool
+     * @internal param string $optionName
      */
-    private function hasAttribute(HasMeta $metaSubject, string $optionName)
+    private function hasAttribute(string $attributeName, int $subjectId, string $metaType)
     {
-        return isset($this->attributesStorage[$metaSubject->getMetaTypeName()]) &&
-            isset($this->attributesStorage[$metaSubject->getMetaTypeName()][$optionName]) &&
-            isset($this->attributesStorage[$metaSubject->getMetaTypeName()][$optionName][$metaSubject->getMetaSubjectId()]);
+        return isset($this->attributesStorage[$metaType]) &&
+            isset($this->attributesStorage[$metaType][$attributeName]) &&
+            isset($this->attributesStorage[$metaType][$attributeName][$subjectId]);
     }
 
     /**
-     * @param HasMeta $metaSubject
-     * @param MetaAttribute $option
+     * @param HasMeta $subject
+     * @param string $attributeName
      * @return bool
      */
-    public function deleteMetaValue(HasMeta $metaSubject, MetaAttribute $option): bool
+    public function deleteMetaValue(HasMeta $subject, string $attributeName): bool
     {
-        if ($this->hasAttribute($metaSubject, $option->name()))
-            unset($this->attributesStorage[$metaSubject->getMetaTypeName()][$option->name()][$metaSubject->getMetaSubjectId()]);
+        if ($this->hasAttribute($attributeName, $subject->getMetaSubjectId(), $subject->getMetaTypeName()))
+            unset($this->attributesStorage[$subject->getMetaTypeName()][$attributeName][$subject->getMetaSubjectId()]);
         return true;
     }
 }

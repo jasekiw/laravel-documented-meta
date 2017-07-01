@@ -25,4 +25,12 @@ class BooleanMetaType extends MetaType
         return (bool)$this->attribute->getRawValue();
     }
 
+    /**
+     * Gets the default value of this type
+     * @return mixed
+     */
+    public function default()
+    {
+        return [];
+    }
 }

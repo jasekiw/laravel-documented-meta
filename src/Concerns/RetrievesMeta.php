@@ -39,5 +39,14 @@ trait RetrievesMeta
         return  app()->make(MetaKernel::class)->getMetaConfig($this)->setMetaValue($keyOrClass, $this, $value);
     }
 
+    /**
+     * Check whether the given attribute has a value
+     * @param string $keyOrClass
+     * @return bool
+     */
+    public function metaExists(string $keyOrClass) : bool {
+        return  app()->make(MetaKernel::class)->getMetaConfig($this)->metaExists($keyOrClass, $this);
+    }
+
 
 }

@@ -21,6 +21,16 @@ class IntegerMetaType extends MetaType
      * @return int
      */
     public function get() : int {
-        return (int)$this->attribute->getRawValue();
+        $value = $this->attribute->getRawValue();
+        return is_null($value) ? $this->default() : (int)$value;
+    }
+
+    /**
+     * Gets the default value of this type
+     * @return mixed
+     */
+    public function default()
+    {
+        return 0;
     }
 }

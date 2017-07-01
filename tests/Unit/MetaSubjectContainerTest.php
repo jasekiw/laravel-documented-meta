@@ -10,7 +10,7 @@ use LaravelDocumentedMeta\Tests\Fixtures\StringAttributeFixture;
 use LaravelDocumentedMeta\Tests\TestCase;
 
 
-class MetaTypeContainerTest extends TestCase
+class MetaSubjectContainerTest extends TestCase
 {
     public function test_getAttributeByClass() {
 

@@ -5,8 +5,6 @@ namespace LaravelDocumentedMeta\Attribute\Types;
 class StringMetaType extends MetaType
 {
 
-
-
     /**
      * @param $value
      *
@@ -21,6 +19,16 @@ class StringMetaType extends MetaType
      * @return null|string
      */
     public function get() {
-        return (string)$this->attribute->getRawValue();
+        $value = $this->attribute->getRawValue();
+        return is_null($value) ? $this->default() : $value;
+    }
+
+    /**
+     * Gets the default value of this type
+     * @return mixed
+     */
+    public function default()
+    {
+        return '';
     }
 }

@@ -7,6 +7,7 @@ use LaravelDocumentedMeta\Attribute\Types\ArrayMetaType;
 use LaravelDocumentedMeta\Attribute\Types\BooleanMetaType;
 use LaravelDocumentedMeta\Attribute\Types\FloatMetaType;
 use LaravelDocumentedMeta\Attribute\Types\IntegerMetaType;
+use LaravelDocumentedMeta\Attribute\Types\MetaType;
 use LaravelDocumentedMeta\Attribute\Types\ObjectMetaType;
 use LaravelDocumentedMeta\Attribute\Types\StringMetaType;
 use LaravelDocumentedMeta\Contracts\HasMeta;
@@ -44,7 +45,7 @@ abstract class MetaAttribute implements Arrayable
     protected $object;
     /** @var  StringMetaType */
     protected $string;
-
+    /** @var MetaType[] */
     private $types = [];
     /**
      * MetaAttribute constructor.
@@ -98,11 +99,7 @@ abstract class MetaAttribute implements Arrayable
      */
     public abstract function description(): string;
 
-    /**
-     * Gets the default value of this attribute
-     * @return mixed
-     */
-    public abstract function default();
+
 
     /**
      * The data type of the attribute. Possible values: "string", "boolean", "array"
@@ -118,11 +115,22 @@ abstract class MetaAttribute implements Arrayable
     public abstract function possibleValues(): array;
 
     /**
+     * Gets the default value of this attribute
+     * @return mixed
+     */
+    public function default() {
+        return $this->types[$this->type()]->default();
+    }
+    /**
      * Gets the value
      * @return mixed
      */
     public function get() {
         return $this->types[$this->type()]->get();
+    }
+
+    public function exists() : bool {
+        return $this->driver->getMetaValue($this->metaSubject, $this, null) !== null;
     }
 
     /**
@@ -141,7 +149,7 @@ abstract class MetaAttribute implements Arrayable
      */
     public function remove()
     {
-        return $this->driver->deleteMetaValue($this->metaSubject, $this);
+        return $this->driver->deleteMetaValue($this->metaSubject, $this->name());
     }
 
     /**
@@ -151,7 +159,7 @@ abstract class MetaAttribute implements Arrayable
      */
     public function setRawValue($value)
     {
-        return $this->driver->setMetaValue($this->metaSubject, $this, $value);
+        return $this->driver->setMetaValue($this->metaSubject, $this->name(), $value);
     }
 
     /**
@@ -160,8 +168,7 @@ abstract class MetaAttribute implements Arrayable
      */
     public function getRawValue()
     {
-
-        return $this->driver->getMetaValue($this->metaSubject, $this);
+        return $this->driver->getMetaValue($this->metaSubject, $this->name(), $this->default());
     }
 
 

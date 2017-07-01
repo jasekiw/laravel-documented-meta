@@ -25,4 +25,10 @@ abstract class MetaType
      * @return bool successful
      */
     public abstract function set($value) : bool;
+
+    /**
+     * Gets the default value of this type
+     * @return mixed
+     */
+    public abstract function default();
 }

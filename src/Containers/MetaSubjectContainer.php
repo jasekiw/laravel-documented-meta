@@ -102,6 +102,18 @@ class MetaSubjectContainer
             return $this->getAttributeByName($keyOrClass)->getAttribute()->setSubject($subject)->set($value);
     }
 
+    /**
+     * @param string $keyOrClass
+     * @param HasMeta $subject
+     * @return bool
+     */
+    public function metaExists(string $keyOrClass, HasMeta $subject) : bool {
+        if(class_exists($keyOrClass))
+            return $this->getAttributeByClass($keyOrClass)->getAttribute()->setSubject($subject)->exists();
+        else
+            return $this->getAttributeByName($keyOrClass)->getAttribute()->setSubject($subject)->exists();
+    }
+
 
     /**
      * Gets an attribute by it's programmatic name

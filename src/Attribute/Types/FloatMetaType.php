@@ -21,6 +21,16 @@ class FloatMetaType extends MetaType
      * @return float
      */
     public function get() : float {
-        return (float)$this->attribute->getRawValue();
+        $value = $this->attribute->getRawValue();
+        return  is_null($value) ? $this->default() : (float) $value;
+    }
+
+    /**
+     * Gets the default value of this type
+     * @return mixed
+     */
+    public function default()
+    {
+        return 0.0;
     }
 }

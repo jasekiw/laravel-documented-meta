@@ -8,13 +8,13 @@ use stdClass;
 class ObjectMetaType extends  MetaType
 {
     /**
-     * @return array|null
+     * @return array
      */
     public function get() {
         $value = $this->attribute->getRawValue();
         if(is_array($value))
             return $value;
-        return json_decode($value, true);
+        return  is_null($value) ? $this->default() : json_decode($value, true);
     }
 
     /**
@@ -32,4 +32,12 @@ class ObjectMetaType extends  MetaType
     }
 
 
+    /**
+     * Gets the default value of this type
+     * @return mixed
+     */
+    public function default()
+    {
+        return [];
+    }
 }

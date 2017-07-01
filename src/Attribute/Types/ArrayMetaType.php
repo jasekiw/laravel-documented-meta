@@ -85,6 +85,17 @@ class ArrayMetaType extends MetaType
         $value = $this->attribute->getRawValue();
         if(is_array($value))
             return $value;
+        if(is_null($value))
+            return $this->default();
         return json_decode($value, true);
+    }
+
+    /**
+     * Gets the default value of this type
+     * @return mixed
+     */
+    public function default()
+    {
+        return [];
     }
 }
