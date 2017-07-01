@@ -1,10 +1,11 @@
 <?php
 
-namespace LaravelDocumentedMeta\Tests\Fixtures;
+namespace LaravelDocumentedMeta\Tests\Fixtures\Subject;
 
 
 use LaravelDocumentedMeta\Contracts\HasMeta;
 use LaravelDocumentedMeta\Concerns\RetrievesMeta;
+use LaravelDocumentedMeta\Tests\Fixtures\MetaAttributeFixture;
 
 /**
  * Class MetaSubjectFixture
@@ -18,7 +19,7 @@ class MetaSubjectFixture implements HasMeta
      * Get the meta attributes that are related to this model
      * @return array
      */
-    public function getAttributes(): array
+    public function getMetaAttributes() : array
     {
         return [
             'namespace' => MetaAttributeFixture::class
@@ -29,16 +30,16 @@ class MetaSubjectFixture implements HasMeta
      * Get the name of the meta type. This has to be unique per model
      * @return string
      */
-    public function getMetaTypeName(): string
+    public function getMetaTypeName() : string
     {
-        return 'test-name';
+        return 'meta-subject';
     }
 
     /**
      * Get the primary key id of the model
      * @return int
      */
-    public function getMetaSubjectId()
+    public function getMetaSubjectId() : int
     {
         return 1;
     }

@@ -14,19 +14,28 @@ trait RetrievesMeta
 {
 
     /**
-     * @param $keyOrClass
-     * @return mixed
+     * Get the value of the given attribute.
+     *
+     * Ex.  getMeta(SomeAttribute::class);
+     *
+     * @param string $keyOrClass The name of the attribute or the class name of the attribute.
+     * @return mixed The value will be casted to the correct type upon receiving
      */
-    public function getMetaValue($keyOrClass) {
-       return  app()->make(MetaKernel::class)->getMetaConfig($this)->getMetaValue($keyOrClass, $this);
+    public function getMeta(string $keyOrClass) {
+       return app()->make(MetaKernel::class)->getMetaConfig($this)->getMetaValue($keyOrClass, $this);
     }
 
     /**
-     * @param $keyOrClass
-     * @param $value
+     * Saves the given meta data to the attribute.
+     *
+     * Ex.  setMeta(SomeAttribute::class, $value);
+     *
+     * @param string $keyOrClass The name of the attribute or the class name of the attribute.
+     *
+     * @param mixed $value
      * @return bool
      */
-    public function setMetaValue($keyOrClass, $value) {
+    public function setMeta(string $keyOrClass, $value) : bool {
         return  app()->make(MetaKernel::class)->getMetaConfig($this)->setMetaValue($keyOrClass, $this, $value);
     }
 

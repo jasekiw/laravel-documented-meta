@@ -2,18 +2,29 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
+
+/**
+ * Class CreateMetaTable
+ */
 class CreateMetaTable extends Migration
 {
+    /**
+     * The table builder
+     * @var Builder
+     */
     protected $builder;
 
     /**
-     * CreateMetaTable constructor.
+     * Inject Builder
      */
     public function __construct()
     {
         $this->builder = app()->make(Builder::class);
     }
 
+    /**
+     * Create the table
+     */
     public function up() {
        $this->builder->create('documented_meta', function(Blueprint $table) {
            $table->increments('id');
@@ -25,6 +36,10 @@ class CreateMetaTable extends Migration
        });
 
     }
+
+    /**
+     * Drop the table
+     */
     public function down() {
         $this->builder->drop('documented_meta');
     }

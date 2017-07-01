@@ -13,7 +13,7 @@ interface HasMeta
      * Get the meta attributes that are related to this model
      * @return array
      */
-    public function getAttributes() : array;
+    public function getMetaAttributes() : array;
 
     /**
      * Get the name of the meta type. This has to be unique per model
@@ -25,6 +25,20 @@ interface HasMeta
      * Get the primary key id of the model
      * @return int
      */
-    public function getMetaSubjectId();
+    public function getMetaSubjectId() : int;
+
+    /**
+     * @param string $nameOrClass
+     * @return mixed
+     */
+    public function getMeta(string $nameOrClass);
+
+    /**
+     * Sets a meta attribute
+     * @param string $nameOrClass
+     * @param $value
+     * @return bool
+     */
+    public function setMeta(string $nameOrClass, $value) : bool;
 
 }

@@ -4,7 +4,7 @@ namespace LaravelDocumentedMeta\Attribute;
 
 use Illuminate\Contracts\Support\Arrayable;
 use LaravelDocumentedMeta\Contracts\HasMeta;
-use LaravelDocumentedMeta\Database\MetaDriver;
+use LaravelDocumentedMeta\Storage\Database\DatabaseMetaProvider;
 use LaravelDocumentedMeta\Concerns\RetrievesMeta;
 
 /**
@@ -14,21 +14,27 @@ use LaravelDocumentedMeta\Concerns\RetrievesMeta;
 abstract class MetaAttribute implements Arrayable
 {
 
-    /** @var  HasMeta */
+    /**
+     * @var  HasMeta
+     */
     protected $metaSubject;
+
+    /**
+     * @var DatabaseMetaProvider
+     */
     protected $driver;
 
     /**
      * MetaAttribute constructor.
-     * @param MetaDriver $driver
+     * @param DatabaseMetaProvider $driver
      */
-    public function __construct(MetaDriver $driver )
+    public function __construct(DatabaseMetaProvider $driver )
     {
         $this->driver = $driver;
     }
 
     /**
-     * Sets the subject to apply to
+     * Sets the subject to apply this meta to
      * @param HasMeta $metaSubject
      * @return $this
      */
@@ -68,6 +74,13 @@ abstract class MetaAttribute implements Arrayable
      */
     public abstract function type() : string;
 
+
+    /**
+     * Get the possibly values that this meta attribute can have for documentation.
+     * @return array
+     */
+    public abstract function possibleValues() : array;
+
     /**
      * Gets the value
      * @return mixed
@@ -87,7 +100,7 @@ abstract class MetaAttribute implements Arrayable
      */
     public function remove()
     {
-        return $this->removeMetaValue();
+        return $this->driver->deleteMetaValue($this->metaSubject, $this);
     }
 
     /**
@@ -95,7 +108,7 @@ abstract class MetaAttribute implements Arrayable
      *
      * @return bool
      */
-    protected function saveMetaValue($value) {
+    public function saveStringValue($value) {
         return $this->driver->setMetaValue($this->metaSubject, $this, $value);
     }
 
@@ -103,125 +116,9 @@ abstract class MetaAttribute implements Arrayable
      * Gets a meta value
      * @return null|string
      */
-    protected function getMetaValue() {
+    public function getStringValue() {
 
         return $this->driver->getMetaValue($this->metaSubject, $this);
-    }
-
-
-    /**
-     * removes a meta value
-     *
-     * @return bool|int|null
-     */
-    protected function removeMetaValue()
-    {
-        return $this->driver->deleteMetaValue($this->metaSubject, $this);
-    }
-
-
-    /**
-     * @param array         $values
-     * @param callable|null $filter ($value) : boolean
-     *
-     * @return bool
-     */
-    protected function saveMetaArray( array $values, $filter = null) {
-        $values = array_values($values); // strip out any key associations
-        $savedValues = [];
-        foreach ($values as $value) // loop through the new items to make sure they can go in the database
-            if(isset($filter) && is_callable($filter)) // if a filter is given
-            {
-                if($filter($value)) // cecj the filter for a truthy return
-                    array_push($savedValues, $value);
-            }
-            else // no filter given, lets add it in!
-                array_push($savedValues, $value);
-
-        return $this->saveMetaValue(json_encode($savedValues));
-    }
-
-
-    /**
-     * @param array  $values
-     *
-     * @return bool
-     */
-    protected function removeMetaArrayValues(array $values)
-    {
-        $valuesToRemove = array_values($values); // strip out any key associations
-        $savedValues = $this->getMetaArray();
-        // ouch that time complexity! O(N^2) around 47 milliseconds worse case scenario. around 212521 total iterations worse case
-        foreach ($valuesToRemove as $valueToRemove)
-            if(in_array($valueToRemove,$savedValues))
-                foreach($savedValues as $key => $savedValue)
-                    if($savedValue == $valueToRemove)
-                        unset($savedValues[$key]);
-        return $this->saveMetaValue(json_encode($savedValues));
-    }
-
-
-    /**
-     * Gets an array from the meta
-     *
-     * @param array $default
-     * @return array|mixed
-     */
-    protected function getMetaArray($default = []) {
-        $value = $this->getMetaValue();
-        if(empty($value))
-            return $default;
-        return json_decode($value, true);
-    }
-
-
-    /**
-     * Saves a boolean value to the meta
-     *
-     * @param bool   $boolean
-     *
-     * @return bool successful
-     */
-    protected function saveMetaBoolean(bool $boolean) {
-        return $this->saveMetaValue((int)$boolean);
-    }
-
-    /**
-     * Gets a boolean value from the meta
-     *
-     *
-     * @param bool   $default
-     *
-     * @return bool
-     */
-    protected function getMetaBoolean(bool $default = false) : bool {
-        $value = $this->getMetaValue();
-        if(!isset($value))
-            return $default;
-        return (bool)$value;
-    }
-
-    /**
-     * @param array         $values
-     * @param callable|null $filter ($value) : boolean
-     *
-     * @return bool
-     */
-    protected function saveOrAddMetaArray( array $values, $filter = null) {
-        $values = array_values($values); // strip out any key associations
-        $savedValues = $this->getMetaArray();
-        foreach ($values as $value) // loop through the new items to make sure they can go in the database
-            if(!in_array($value, $savedValues)) // not already saved
-            {
-                if(isset($filter) && is_callable($filter)) // if a filter is given
-                {
-                    if($filter($value)) // call the filter for a truthy return
-                        array_push($savedValues, $value);
-                }
-                else // no filter given, lets add it in!
-                    array_push($savedValues, $value);
-            }
-        return $this->saveMetaValue(json_encode($savedValues));
     }
 
 
@@ -236,6 +133,7 @@ abstract class MetaAttribute implements Arrayable
             'label' => $this->label(),
             'description' => $this->description(),
             'type' => $this->type(),
+            'possibleValues' => json_encode($this->possibleValues()),
             'value' => $this->get(),
             'default' => $this->default()
         ];

@@ -3,8 +3,9 @@
 namespace LaravelDocumentedMeta;
 
 use Illuminate\Support\ServiceProvider;
+use LaravelDocumentedMeta\Containers\AttributeContainer;
 use LaravelDocumentedMeta\Containers\MetaKernel;
-use LaravelDocumentedMeta\Database\MetaDriver;
+use LaravelDocumentedMeta\Storage\Database\DatabaseMetaProvider;
 
 /**
  * Class DocumentedMetaServiceProvider
@@ -30,6 +31,7 @@ class DocumentedMetaServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(MetaKernel::class);
-        $this->app->singleton(MetaDriver::class);
+        $this->app->singleton(DatabaseMetaProvider::class);
+        $this->app->singleton(AttributeContainer::class);
     }
 }

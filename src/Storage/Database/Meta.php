@@ -1,12 +1,12 @@
 <?php
 
-namespace LaravelDocumentedMeta\Database;
+namespace LaravelDocumentedMeta\Storage\Database;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Meta
- * @package LaravelDocumentedMeta\Database
+ * @package LaravelDocumentedMeta\Storage\Database
  */
 class Meta extends Model
 {

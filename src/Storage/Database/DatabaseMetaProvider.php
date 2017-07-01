@@ -1,13 +1,16 @@
 <?php
 
-namespace LaravelDocumentedMeta\Database;
-
+namespace LaravelDocumentedMeta\Storage\Database;
 
 use LaravelDocumentedMeta\Contracts\HasMeta;
 use LaravelDocumentedMeta\Contracts\HasParentMeta;
 use LaravelDocumentedMeta\Attribute\MetaAttribute;
 
-class MetaDriver
+/**
+ * Class MetaDriver
+ * @package LaravelDocumentedMeta\Storage\Database
+ */
+class DatabaseMetaProvider
 {
     /**
      * @param HasMeta $metaSubject

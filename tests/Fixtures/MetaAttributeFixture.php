@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelDocumentedMeta\Tests\Fixtures;
 
 use LaravelDocumentedMeta\Attribute\MetaAttribute;
@@ -10,7 +11,6 @@ use LaravelDocumentedMeta\Attribute\MetaValueType;
  */
 class MetaAttributeFixture extends MetaAttribute
 {
-
 
 
     /**
@@ -64,7 +64,7 @@ class MetaAttributeFixture extends MetaAttribute
      */
     public function get()
     {
-        return $this->getMetaValue();
+        return $this->getStringValue();
     }
 
     /**
@@ -74,6 +74,18 @@ class MetaAttributeFixture extends MetaAttribute
      */
     public function set($value)
     {
-        return $this->saveMetaValue($value);
+        return $this->saveStringValue($value);
+    }
+
+    /**
+     * Get the possibly values that this meta attribute can have for documentation.
+     * @return array
+     */
+    public function possibleValues(): array
+    {
+        return [
+            'none',
+            'test'
+        ];
     }
 }

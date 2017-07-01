@@ -13,7 +13,7 @@ use Closure;
 class AttributeIterator
 {
     /**
-     * Parses a Meta Option config. The callack will be called for every option with it's namespace.
+     * Parses a Meta Option config. The CallBack will be called for every option with it's namespace.
      *
      * @param array $attributes Map ["namespace" => [Option::class, "namespace_child" => [Option3::class] ], Option1::class ]
      * An Array that lays out the config that the iterator will parse.
@@ -29,7 +29,7 @@ class AttributeIterator
 
 
     /**
-     * A recursive fuction to iterate over the config.
+     * A recursive function to iterate over the config.
      * @param array $attributes
      * @param string $parentNamespace
      * @param Closure $callback (string $namespace, Class<T> $attributeClass) => T

@@ -9,7 +9,7 @@ use LaravelDocumentedMeta\Attribute\MetaAttribute;
  * Class AttributeContainer
  * @package LaravelDocumentedMeta\Attribute
  */
-class AttributeContainer
+class AttributeWrapper
 {
     protected $nameSpace;
     protected $option;

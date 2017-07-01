@@ -3,7 +3,7 @@
 
 namespace LaravelDocumentedMeta\Containers;
 
-use LaravelDocumentedMeta\Attribute\AttributeContainer;
+use LaravelDocumentedMeta\Attribute\AttributeWrapper;
 use LaravelDocumentedMeta\Attribute\AttributeIterator;
 use LaravelDocumentedMeta\Contracts\HasMeta;
 use LaravelDocumentedMeta\Concerns\RetrievesMeta;
@@ -12,15 +12,15 @@ use LaravelDocumentedMeta\Concerns\RetrievesMeta;
  * Class MetaTypeContainer
  * @package App\Lib\User\Meta\AttributeParsing
  */
-class MetaTypeContainer
+class MetaSubjectContainer
 {
     /**
-     * @var AttributeContainer[]
+     * @var AttributeWrapper[]
      */
     private $registeredAttributesByName = [];
 
     /**
-     * @var AttributeContainer[]
+     * @var AttributeWrapper[]
      */
     private $registeredAttributesByClassName = [];
 
@@ -30,21 +30,24 @@ class MetaTypeContainer
     protected $configArray;
 
     /**
+     * @var AttributeContainer
+     */
+    protected $container;
+    /**
      * MetaTypeContainer constructor.
      * @param \LaravelDocumentedMeta\Contracts\HasMeta|RetrievesMeta $metaSubject
+     * @param AttributeContainer $container
      * @internal param RetrievesMeta $metSubject
      * @internal param array $configArray
      */
-    public function __construct(HasMeta $metaSubject)
+    public function __construct(HasMeta $metaSubject, AttributeContainer $container)
     {
-        $this->configArray = $metaSubject->getAttributes();
-        $this->configArray = (new AttributeIterator())->parse($metaSubject->getAttributes(), function($parentNamespace, $class) {
-            /** @var \LaravelDocumentedMeta\Attribute\MetaAttribute $attribute */
-            app()->singleton($class);
-            $attribute = app()->make($class);
-            $attContainer = new AttributeContainer($parentNamespace, $attribute);
+        $this->container = $container;
+        $this->configArray = $metaSubject->getMetaAttributes();
+        $this->configArray = (new AttributeIterator())->parse($metaSubject->getMetaAttributes(), function($namespace, $class) {
+            $attContainer = new AttributeWrapper($namespace, $this->container->register($class));
             $this->registeredAttributesByName[$attContainer->getName()] = $attContainer;
-            $this->registeredAttributesByClassName[get_class($attribute)] = $attContainer;
+            $this->registeredAttributesByClassName[get_class($attContainer->getAttribute())] = $attContainer;
             return $attContainer;
         });
     }
@@ -55,7 +58,7 @@ class MetaTypeContainer
      */
     public function getNameSpacedConfig(HasMeta $subject) {
 
-       return (new AttributeIterator())->parse($this->configArray, function ($namespace, AttributeContainer &$object) use($subject) {
+       return (new AttributeIterator())->parse($this->configArray, function ($namespace, AttributeWrapper &$object) use($subject) {
             return $object->toArray($subject, false);
         });
 
@@ -64,7 +67,7 @@ class MetaTypeContainer
     /**
      * Get attribute by class name
      * @param string $className The name of the class. ex Dog::class
-     * @return AttributeContainer
+     * @return AttributeWrapper
      */
     public function getAttributeByClass(string $className)
     {
@@ -103,7 +106,7 @@ class MetaTypeContainer
     /**
      * Gets an attribute by it's programmatic name
      * @param string $name
-     * @return AttributeContainer|null
+     * @return AttributeWrapper|null
      */
     public function getAttributeByName(string $name)
     {
