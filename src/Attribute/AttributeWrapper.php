@@ -57,6 +57,7 @@ class AttributeWrapper
             'name' => $name,
             'label' => $this->option->label(),
             'description' => $this->option->description(),
+            'possibleValues' => json_encode($this->option->possibleValues()),
             'type' => $this->option->type(),
             'value' => $this->option->get(),
             'default' => $this->option->default()
