@@ -12,6 +12,7 @@ use LaravelDocumentedMeta\Attribute\Types\StringMetaType;
 use LaravelDocumentedMeta\Containers\AttributeContainer;
 use LaravelDocumentedMeta\Containers\MetaKernel;
 use LaravelDocumentedMeta\Storage\Database\DatabaseMetaProvider;
+use LaravelDocumentedMeta\Storage\MetaProvider;
 
 /**
  * Class DocumentedMetaServiceProvider
@@ -37,7 +38,7 @@ class DocumentedMetaServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(MetaKernel::class);
-        $this->app->singleton(DatabaseMetaProvider::class);
+        $this->app->singleton(MetaProvider::class, DatabaseMetaProvider::class);
         $this->app->singleton(AttributeContainer::class);
 
 
