@@ -19,7 +19,9 @@ class SubjectWithParentFixture implements HasMeta, HasParentMeta
     public function getMetaAttributes(): array
     {
         return [
-            'namespace' => StringAttributeFixture::class
+            'namespace' => [
+                StringAttributeFixture::class
+            ]
         ];
     }
 

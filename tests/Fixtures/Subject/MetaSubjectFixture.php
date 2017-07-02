@@ -22,7 +22,9 @@ class MetaSubjectFixture implements HasMeta
     public function getMetaAttributes() : array
     {
         return [
-            'namespace' => StringAttributeFixture::class
+            'namespace' => [
+                StringAttributeFixture::class
+            ]
         ];
     }
 

@@ -58,5 +58,13 @@ trait RetrievesMeta
         return  app()->make(MetaKernel::class)->getMetaConfig($this)->getMetaAttribute($keyOrClass, $this);
     }
 
+    /**
+     * Get the array containing the current attributes for documentation and auto setting.
+     * @return array
+     */
+    public function getMetaConfiguration() : array {
+        return  app()->make(MetaKernel::class)->getMetaConfig($this)->getAllMetaConfig($this);
+    }
+
 
 }

@@ -31,4 +31,10 @@ abstract class MetaType
      * @return mixed
      */
     public abstract function default();
+
+    /**
+     * Get the name of the Meta Type
+     * @return string
+     */
+    public abstract static function name() : string;
 }

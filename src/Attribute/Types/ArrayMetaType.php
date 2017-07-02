@@ -5,6 +5,7 @@ namespace LaravelDocumentedMeta\Attribute\Types;
 class ArrayMetaType extends MetaType
 {
 
+
     /**
      * @param array         $values
      * @param callable|null $filter ($value) : boolean
@@ -97,5 +98,14 @@ class ArrayMetaType extends MetaType
     public function default()
     {
         return [];
+    }
+
+    /**
+     * Get the name of the Meta Type
+     * @return string
+     */
+    public static function name(): string
+    {
+        return 'array';
     }
 }

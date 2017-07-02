@@ -2,6 +2,8 @@
 
 namespace LaravelDocumentedMeta\Contracts;
 
+use LaravelDocumentedMeta\Attribute\MetaAttribute;
+
 
 /**
  * Interface HasMeta
@@ -47,5 +49,18 @@ interface HasMeta
      * @return bool
      */
     public function metaExists(string $keyOrClass) : bool;
+
+    /**
+     * Get the raw meta attribute
+     * @param string $keyOrClass
+     * @return MetaAttribute
+     */
+    public function getMetaAttribute(string $keyOrClass);
+
+    /**
+     * Get the array containing the current attributes for documentation and auto setting.
+     * @return array
+     */
+    public function getMetaConfiguration() : array;
 
 }

@@ -31,4 +31,13 @@ class StringMetaType extends MetaType
     {
         return '';
     }
+
+    /**
+     * Get the name of the Meta Type
+     * @return string
+     */
+    public static function name(): string
+    {
+        return 'string';
+    }
 }

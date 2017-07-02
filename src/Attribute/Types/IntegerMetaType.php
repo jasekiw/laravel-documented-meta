@@ -33,4 +33,13 @@ class IntegerMetaType extends MetaType
     {
         return 0;
     }
+
+    /**
+     * Get the name of the Meta Type
+     * @return string
+     */
+    public static function name(): string
+    {
+        return 'int';
+    }
 }

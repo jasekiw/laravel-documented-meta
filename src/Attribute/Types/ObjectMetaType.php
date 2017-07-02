@@ -40,4 +40,13 @@ class ObjectMetaType extends  MetaType
     {
         return [];
     }
+
+    /**
+     * Get the name of the Meta Type
+     * @return string
+     */
+    public static function name(): string
+    {
+        return 'object';
+    }
 }
