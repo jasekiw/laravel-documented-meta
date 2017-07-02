@@ -49,5 +49,11 @@ class MetaSubjectTest extends TestCase
         $attributes = $this->subject->getMetaConfiguration();
         $this->assertEquals('testOption', $attributes['nested']['namespace'][0]['name'], "The attribute should show in the correct location and have the correct name");
         $this->assertEquals('namespace.testOption', $attributes['flat'][0]['name'], "The attribute should show in the correct location and have the correct name");
+        $this->assertEquals('namespace.testOption', $attributes['flat'][0]['name'], "The attribute should show in the correct location and have the correct name");
+    }
+
+    public function test_it_should_retrieveDefault() {
+
+        $this->assertEquals('none',$this->subject->getMetaAttribute(StringAttributeFixture::class)->toArray()['value']);
     }
 }

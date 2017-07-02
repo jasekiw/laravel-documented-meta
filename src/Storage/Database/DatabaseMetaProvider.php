@@ -30,7 +30,7 @@ class DatabaseMetaProvider implements MetaProvider
         if(!$metaSubject instanceof HasParentMeta)
             return $default;
 
-        return $this->getMetaValue($metaSubject->getParentMetaSubject(), $attributeName);
+        return $this->getMetaValue($metaSubject->getParentMetaSubject(), $attributeName, $default);
     }
 
     /**
