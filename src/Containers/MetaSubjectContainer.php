@@ -5,6 +5,7 @@ namespace LaravelDocumentedMeta\Containers;
 
 use LaravelDocumentedMeta\Attribute\AttributeWrapper;
 use LaravelDocumentedMeta\Attribute\AttributeIterator;
+use LaravelDocumentedMeta\Attribute\MetaAttribute;
 use LaravelDocumentedMeta\Contracts\HasMeta;
 use LaravelDocumentedMeta\Concerns\RetrievesMeta;
 
@@ -112,6 +113,18 @@ class MetaSubjectContainer
             return $this->getAttributeByClass($keyOrClass)->getAttribute()->setSubject($subject)->exists();
         else
             return $this->getAttributeByName($keyOrClass)->getAttribute()->setSubject($subject)->exists();
+    }
+
+    /**
+     * @param string $keyOrClass
+     * @param HasMeta $subject
+     * @return MetaAttribute
+     */
+    public function getMetaAttribute(string $keyOrClass, HasMeta $subject) {
+        if(class_exists($keyOrClass))
+            return $this->getAttributeByClass($keyOrClass)->getAttribute()->setSubject($subject);
+        else
+            return $this->getAttributeByName($keyOrClass)->getAttribute()->setSubject($subject);
     }
 
 

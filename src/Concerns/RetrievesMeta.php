@@ -2,6 +2,7 @@
 
 namespace LaravelDocumentedMeta\Concerns;
 
+use LaravelDocumentedMeta\Attribute\MetaAttribute;
 use LaravelDocumentedMeta\Containers\MetaKernel;
 use LaravelDocumentedMeta\Contracts\HasMeta;
 
@@ -46,6 +47,15 @@ trait RetrievesMeta
      */
     public function metaExists(string $keyOrClass) : bool {
         return  app()->make(MetaKernel::class)->getMetaConfig($this)->metaExists($keyOrClass, $this);
+    }
+
+    /**
+     * Get the raw meta attribute
+     * @param string $keyOrClass
+     * @return MetaAttribute
+     */
+    public function getMetaAttribute(string $keyOrClass) {
+        return  app()->make(MetaKernel::class)->getMetaConfig($this)->getMetaAttribute($keyOrClass, $this);
     }
 
 

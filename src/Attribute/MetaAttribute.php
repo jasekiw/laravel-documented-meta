@@ -72,7 +72,7 @@ abstract class MetaAttribute implements Arrayable
     /**
      * Sets the subject to apply this meta to
      * @param HasMeta $metaSubject
-     * @return $this
+     * @return MetaAttribute
      */
     public function setSubject(HasMeta $metaSubject)
     {
