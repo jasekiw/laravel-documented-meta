@@ -70,7 +70,7 @@ class MetaSubjectContainer
      * @param string $className The name of the class. ex Dog::class
      * @return AttributeWrapper
      */
-    public function getAttributeByClass(string $className)
+    public function getWrapperByClass(string $className)
     {
         if (isset($this->registeredAttributesByClassName[$className]))
             return $this->registeredAttributesByClassName[$className];
@@ -83,10 +83,10 @@ class MetaSubjectContainer
      * @return mixed
      */
     public function getMetaValue(string $keyOrClass, HasMeta $subject) {
-        if(class_exists($keyOrClass))
-            return $this->getAttributeByClass($keyOrClass)->getAttribute()->setSubject($subject)->get();
-        else
-            return $this->getAttributeByName($keyOrClass)->getAttribute()->setSubject($subject)->get();
+        $wrapper = $this->getWrapper($keyOrClass);
+        if($wrapper == null)
+            return null;
+        return $wrapper->getAttribute()->setSubject($subject)->get();
     }
 
 
@@ -96,11 +96,11 @@ class MetaSubjectContainer
      * @param $value
      * @return bool
      */
-    public function setMetaValue($keyOrClass, HasMeta $subject, $value) {
-        if(class_exists($keyOrClass))
-            return $this->getAttributeByClass($keyOrClass)->getAttribute()->setSubject($subject)->set($value);
-        else
-            return $this->getAttributeByName($keyOrClass)->getAttribute()->setSubject($subject)->set($value);
+    public function setMetaValue($keyOrClass, HasMeta $subject, $value) : bool {
+        $wrapper = $this->getWrapper($keyOrClass);
+        if($wrapper == null)
+            return false;
+        return $wrapper->getAttribute()->setSubject($subject)->set($value);
     }
 
     /**
@@ -109,10 +109,23 @@ class MetaSubjectContainer
      * @return bool
      */
     public function metaExists(string $keyOrClass, HasMeta $subject) : bool {
+        $wrapper = $this->getWrapper($keyOrClass);
+        if($wrapper == null)
+            return false;
+        return $wrapper->getAttribute()->setSubject($subject)->exists();
+    }
+
+    /**
+     * Gets the wrapper for an attribute
+     * @param string $keyOrClass
+     * @return AttributeWrapper|null
+     */
+    protected function getWrapper(string $keyOrClass) {
         if(class_exists($keyOrClass))
-            return $this->getAttributeByClass($keyOrClass)->getAttribute()->setSubject($subject)->exists();
+            $wrapper = $this->getWrapperByClass($keyOrClass);
         else
-            return $this->getAttributeByName($keyOrClass)->getAttribute()->setSubject($subject)->exists();
+            $wrapper = $this->getWrapperByName($keyOrClass);
+        return $wrapper;
     }
 
     /**
@@ -121,10 +134,10 @@ class MetaSubjectContainer
      * @return MetaAttribute
      */
     public function getMetaAttribute(string $keyOrClass, HasMeta $subject) {
-        if(class_exists($keyOrClass))
-            return $this->getAttributeByClass($keyOrClass)->getAttribute()->setSubject($subject);
-        else
-            return $this->getAttributeByName($keyOrClass)->getAttribute()->setSubject($subject);
+        $wrapper = $this->getWrapper($keyOrClass);
+        if($wrapper == null)
+            return null;
+        return $wrapper->getAttribute()->setSubject($subject);
     }
 
 
@@ -133,7 +146,7 @@ class MetaSubjectContainer
      * @param string $name
      * @return AttributeWrapper|null
      */
-    public function getAttributeByName(string $name)
+    public function getWrapperByName(string $name)
     {
         if (isset($this->registeredAttributesByName[$name]))
             return $this->registeredAttributesByName[$name];

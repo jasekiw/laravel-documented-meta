@@ -19,7 +19,7 @@ class MetaSubjectContainerTest extends TestCase
             'namespace' => [StringAttributeFixture::class]
         ]);
         $config = new MetaSubjectContainer($metaSubject, new AttributeContainer());
-        $attribute = $config->getAttributeByClass(StringAttributeFixture::class);
+        $attribute = $config->getWrapperByClass(StringAttributeFixture::class);
         $this->assertTrue(is_a($attribute->getAttribute(), StringAttributeFixture::class));
         $this->assertEquals('namespace.testOption', $attribute->getName());
 
