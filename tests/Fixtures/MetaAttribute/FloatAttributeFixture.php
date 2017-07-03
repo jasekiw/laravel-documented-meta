@@ -1,16 +1,11 @@
 <?php
 
-namespace LaravelDocumentedMeta\Tests\Fixtures;
+namespace LaravelDocumentedMeta\Tests\Fixtures\MetaAttribute;
 
 use LaravelDocumentedMeta\Attribute\MetaAttribute;
-use LaravelDocumentedMeta\Attribute\MetaValueType;
-use LaravelDocumentedMeta\Attribute\Types\StringMetaType;
+use LaravelDocumentedMeta\Attribute\Types\FloatMetaType;
 
-/**
- * Class MetaAttributeFixture
- * Meta Option Mock
- */
-class StringAttributeFixture extends MetaAttribute
+class FloatAttributeFixture extends MetaAttribute
 {
 
     /**
@@ -19,7 +14,7 @@ class StringAttributeFixture extends MetaAttribute
      */
     public function name(): string
     {
-        return 'testOption';
+        return 'floatAttribute';
     }
 
     /**
@@ -28,7 +23,7 @@ class StringAttributeFixture extends MetaAttribute
      */
     public function label(): string
     {
-        return 'Test Option';
+        return 'Float Attribute';
     }
 
     /**
@@ -37,16 +32,7 @@ class StringAttributeFixture extends MetaAttribute
      */
     public function description(): string
     {
-        return 'Some Description';
-    }
-
-    /**
-     * Gets the default value of this attribute
-     * @return mixed
-     */
-    public function default()
-    {
-        return 'none';
+        return 'A float attribute';
     }
 
     /**
@@ -55,9 +41,8 @@ class StringAttributeFixture extends MetaAttribute
      */
     public function type(): string
     {
-        return StringMetaType::class;
+        return FloatMetaType::class;
     }
-
 
     /**
      * Get the possibly values that this meta attribute can have for documentation.
@@ -66,8 +51,7 @@ class StringAttributeFixture extends MetaAttribute
     public function possibleValues(): array
     {
         return [
-            'none',
-            'test'
+            'between 0 and 999'
         ];
     }
 }

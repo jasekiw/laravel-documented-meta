@@ -2,9 +2,8 @@
 
 namespace LaravelDocumentedMeta\Tests\Integration;
 
-use LaravelDocumentedMeta\Attribute\MetaAttribute;
+use LaravelDocumentedMeta\Tests\Fixtures\MetaAttribute\StringAttributeFixture;
 use LaravelDocumentedMeta\Tests\Fixtures\Subject\DifferentSubjectFixture;
-use LaravelDocumentedMeta\Tests\Fixtures\StringAttributeFixture;
 use LaravelDocumentedMeta\Tests\Fixtures\Subject\MetaSubjectFixture;
 use LaravelDocumentedMeta\Tests\Fixtures\Subject\SubjectWithParentFixture;
 use LaravelDocumentedMeta\Tests\TestCase;

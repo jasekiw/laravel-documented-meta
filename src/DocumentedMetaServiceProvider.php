@@ -9,6 +9,8 @@ use LaravelDocumentedMeta\Attribute\Types\FloatMetaType;
 use LaravelDocumentedMeta\Attribute\Types\IntegerMetaType;
 use LaravelDocumentedMeta\Attribute\Types\ObjectMetaType;
 use LaravelDocumentedMeta\Attribute\Types\StringMetaType;
+use LaravelDocumentedMeta\Attribute\Validators\BooleanValidator;
+use LaravelDocumentedMeta\Attribute\Validators\FloatValidator;
 use LaravelDocumentedMeta\Containers\AttributeContainer;
 use LaravelDocumentedMeta\Containers\MetaKernel;
 use LaravelDocumentedMeta\Storage\Database\DatabaseMetaProvider;
@@ -27,7 +29,13 @@ class DocumentedMetaServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadMigrationsFrom(__DIR__.'/../migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations');
+        /** @var \Illuminate\Validation\Factory $validator */
+        $validator = $this->app->make('validator');
+        /** Validation */
+        $validator->extend('DocumentedMetaBooleanRule', BooleanValidator::class . '@validate', 'The value must be a boolean');
+
+        $validator->extend('DocumentedMetaFloatRule', FloatValidator::class . '@validate',  'The value must be a float');
     }
 
     /**
@@ -51,5 +59,6 @@ class DocumentedMetaServiceProvider extends ServiceProvider
         $this->app->singleton(IntegerMetaType::class);
         $this->app->singleton(ObjectMetaType::class);
         $this->app->singleton(StringMetaType::class);
+
     }
 }

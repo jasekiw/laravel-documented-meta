@@ -6,7 +6,7 @@ namespace LaravelDocumentedMeta\Tests\Unit;
 use LaravelDocumentedMeta\Containers\AttributeContainer;
 use LaravelDocumentedMeta\Containers\MetaSubjectContainer;
 use LaravelDocumentedMeta\Contracts\HasMeta;
-use LaravelDocumentedMeta\Tests\Fixtures\StringAttributeFixture;
+use LaravelDocumentedMeta\Tests\Fixtures\MetaAttribute\StringAttributeFixture;
 use LaravelDocumentedMeta\Tests\TestCase;
 
 

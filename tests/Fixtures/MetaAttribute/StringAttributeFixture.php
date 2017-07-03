@@ -1,11 +1,15 @@
 <?php
 
-namespace LaravelDocumentedMeta\Tests\Fixtures;
+namespace LaravelDocumentedMeta\Tests\Fixtures\MetaAttribute;
 
 use LaravelDocumentedMeta\Attribute\MetaAttribute;
-use LaravelDocumentedMeta\Attribute\Types\IntegerMetaType;
+use LaravelDocumentedMeta\Attribute\Types\StringMetaType;
 
-class IntegerAttributeFixture  extends MetaAttribute
+/**
+ * Class MetaAttributeFixture
+ * Meta Option Mock
+ */
+class StringAttributeFixture extends MetaAttribute
 {
 
     /**
@@ -14,7 +18,7 @@ class IntegerAttributeFixture  extends MetaAttribute
      */
     public function name(): string
     {
-        return 'integerAttributeFixture';
+        return 'testOption';
     }
 
     /**
@@ -23,7 +27,7 @@ class IntegerAttributeFixture  extends MetaAttribute
      */
     public function label(): string
     {
-        return 'Integer Attribute Fixture';
+        return 'Test Option';
     }
 
     /**
@@ -32,9 +36,17 @@ class IntegerAttributeFixture  extends MetaAttribute
      */
     public function description(): string
     {
-       return 'foo';
+        return 'Some Description';
     }
 
+    /**
+     * Gets the default value of this attribute
+     * @return mixed
+     */
+    public function default()
+    {
+        return 'none';
+    }
 
     /**
      * The data type of the attribute. Possible values: "string", "boolean", "array"
@@ -42,8 +54,9 @@ class IntegerAttributeFixture  extends MetaAttribute
      */
     public function type(): string
     {
-        return IntegerMetaType::class;
+        return StringMetaType::class;
     }
+
 
     /**
      * Get the possibly values that this meta attribute can have for documentation.
@@ -51,7 +64,9 @@ class IntegerAttributeFixture  extends MetaAttribute
      */
     public function possibleValues(): array
     {
-        return [0,1,2,3,4];
+        return [
+            'none',
+            'test'
+        ];
     }
-
 }

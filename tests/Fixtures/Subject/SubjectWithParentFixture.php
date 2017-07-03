@@ -5,7 +5,7 @@ namespace LaravelDocumentedMeta\Tests\Fixtures\Subject;
 use LaravelDocumentedMeta\Concerns\RetrievesMeta;
 use LaravelDocumentedMeta\Contracts\HasMeta;
 use LaravelDocumentedMeta\Contracts\HasParentMeta;
-use LaravelDocumentedMeta\Tests\Fixtures\StringAttributeFixture;
+use LaravelDocumentedMeta\Tests\Fixtures\MetaAttribute\StringAttributeFixture;
 
 
 class SubjectWithParentFixture implements HasMeta, HasParentMeta

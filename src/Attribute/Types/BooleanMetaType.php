@@ -13,6 +13,10 @@ class BooleanMetaType extends MetaType
      * @return bool successful
      */
     public function set($boolean) : bool {
+        if($boolean == 'true')
+            $boolean = true;
+        else if($boolean == 'false')
+            $boolean = false;
         return $this->attribute->setRawValue((int)((bool)$boolean));
     }
 

@@ -3,6 +3,7 @@
 namespace LaravelDocumentedMeta\Attribute;
 
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Validation\Validator;
 use LaravelDocumentedMeta\Attribute\Types\ArrayMetaType;
 use LaravelDocumentedMeta\Attribute\Types\BooleanMetaType;
 use LaravelDocumentedMeta\Attribute\Types\FloatMetaType;
@@ -190,6 +191,32 @@ abstract class MetaAttribute implements Arrayable
             'value' => $this->get(),
             'default' => $this->default()
         ];
+    }
+
+    /**
+     * Gets a validator object for this attribute
+     * @param array $requestArray ['value' => $value]
+     * @return Validator
+     */
+    public function getValidator($requestArray) {
+        $type = $this->getType();
+        /** @var \Illuminate\Validation\Factory $validator */
+        $validator = app()->make('validator');
+
+        switch(get_class($type)) {
+            case BooleanMetaType::class :
+                return $validator->make($requestArray, ['value' => 'required|DocumentedMetaBooleanRule']);
+            case ArrayMetaType::class :
+                return $validator->make($requestArray, ['value' => 'required|array']);
+            case FloatMetaType::class :
+                return $validator->make($requestArray, ['value' => 'required|DocumentedMetaFloatRule']);
+            case IntegerMetaType::class :
+                return $validator->make($requestArray, ['value' => 'required|integer']);
+            case StringMetaType::class :
+                return $validator->make($requestArray, ['value' => 'required|string']);
+            default :
+                return $validator->make($requestArray, ['value' => 'required']);
+        }
     }
 
 }
