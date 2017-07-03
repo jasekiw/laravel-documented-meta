@@ -40,6 +40,6 @@ class BooleanMetaType extends MetaType
      */
     public function name(): string
     {
-        return 'bool';
+        return 'boolean';
     }
 }

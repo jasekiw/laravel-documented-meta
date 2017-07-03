@@ -40,6 +40,6 @@ class IntegerMetaType extends MetaType
      */
     public function name(): string
     {
-        return 'int';
+        return 'integer';
     }
 }
