@@ -171,6 +171,9 @@ abstract class MetaAttribute implements Arrayable
         return $this->driver->getMetaValue($this->metaSubject, $this->name(), $this->default());
     }
 
+    public function getType() {
+        return $this->types[$this->type()];
+    }
 
     /**
      * Gets the array version of the object
@@ -182,8 +185,8 @@ abstract class MetaAttribute implements Arrayable
             'name' => $this->name(),
             'label' => $this->label(),
             'description' => $this->description(),
-            'type' => $this->type(),
             'possibleValues' => json_encode($this->possibleValues()),
+            'type' => $this->types[$this->type()]->name(),
             'value' => $this->get(),
             'default' => $this->default()
         ];

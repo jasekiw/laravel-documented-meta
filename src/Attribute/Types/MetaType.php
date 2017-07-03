@@ -36,5 +36,6 @@ abstract class MetaType
      * Get the name of the Meta Type
      * @return string
      */
-    public abstract static function name() : string;
+    public abstract function name() : string;
+
 }

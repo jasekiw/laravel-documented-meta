@@ -38,7 +38,7 @@ class BooleanMetaType extends MetaType
      * Get the name of the Meta Type
      * @return string
      */
-    public static function name(): string
+    public function name(): string
     {
         return 'bool';
     }

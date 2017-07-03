@@ -52,15 +52,9 @@ class AttributeWrapper
     public function toArray(HasMeta $subject, $includePrefix = true)
     {
         $this->option->setSubject($subject);
-        $name = $includePrefix ? $this->getName() : $this->option->name();
-        return [
-            'name' => $name,
-            'label' => $this->option->label(),
-            'description' => $this->option->description(),
-            'possibleValues' => json_encode($this->option->possibleValues()),
-            'type' => call_user_func($this->option->type() .'::name'),
-            'value' => $this->option->get(),
-            'default' => $this->option->default()
-        ];
+        $properties = $this->option->toArray();
+        if($includePrefix)
+            $properties['name'] = $this->getName();
+        return $properties;
     }
 }
